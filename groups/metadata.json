@@ -1,0 +1,30 @@
+{
+    "license": "Apache 2.0",
+    "providing": {
+    },
+    "maintainer": "A Fistful of Enterprises, Inc.",
+    "replacing": {
+    },
+    "version": "0.1.0",
+    "maintainer_email": "sean@afistfulofservers.com",
+    "description": "Creates group from a databag search",
+    "groupings": {
+    },
+    "recommendations": {
+    },
+    "recipes": {
+      "groups": "searches groups data bag for posix groups and creates them"
+    },
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "dependencies": {
+    },
+    "long_description": "",
+    "name": "groups",
+    "platforms": {
+    },
+    "conflicting": {
+    }
+  }

@@ -1,0 +1,29 @@
+{
+    "license": "Apache 2.0",
+    "providing": {
+    },
+    "maintainer": "Opscode, Inc.",
+    "replacing": {
+    },
+    "version": "0.1.0",
+    "maintainer_email": "cookbooks@opscode.com",
+    "description": "Installs/Configures affs-base-debug-tools",
+    "groupings": {
+    },
+    "recommendations": {
+    },
+    "recipes": {
+    },
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "dependencies": {
+    },
+    "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+    "name": "base-debug-tools",
+    "platforms": {
+    },
+    "conflicting": {
+    }
+  }

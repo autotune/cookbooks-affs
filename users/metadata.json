@@ -1,0 +1,30 @@
+{
+    "license": "Apache 2.0",
+    "providing": {
+    },
+    "maintainer": "A Fistful of Enterprises, Inc.",
+    "replacing": {
+    },
+    "version": "0.1.0",
+    "maintainer_email": "sean@afistfulofservers.com",
+    "description": "Creates users from a databag search",
+    "groupings": {
+    },
+    "recommendations": {
+    },
+    "recipes": {
+      "users": "searches users data bag for posix users and creates them"
+    },
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "dependencies": {
+    },
+    "long_description": "",
+    "name": "users",
+    "platforms": {
+    },
+    "conflicting": {
+    }
+  }

@@ -1,0 +1,27 @@
+<VirtualHost *:80>
+    ServerAdmin     <%= node[:nagios][:sysadmin_email] %>
+    ServerName      <%= node[:fqdn] %>
+    ServerAlias     nagios nagios.<%= node[:app_environment]%>.<%= @public_domain %>
+    DocumentRoot    <%= node[:nagios][:docroot] %>
+    CustomLog       <%= node[:nagios][:httplog_dir] %>/apache_access.log combined
+    ErrorLog        <%= node[:nagios][:httplog_dir] %>/apache_error.log
+    Options ExecCGI
+
+    ScriptAlias /cgi-bin/<%= node[:nagios][:urlpath] %> <%= node[:nagios][:scriptalias_filepath] %>
+    ScriptAlias /<%= node[:nagios][:urlpath] %>/cgi-bin <%= node[:nagios][:scriptalias_filepath] %>
+
+    Alias /<%= node[:nagios][:urlpath] %>/stylesheets <%= node[:nagios][:stylesheets_dir] %>
+    Alias /<%= node[:nagios][:urlpath] %> <%= node[:nagios][:docroot] %>
+
+    <Location />
+        AuthName "Nagios Server"
+        AuthOpenIDEnabled On
+        AuthOpenIDDBLocation <%= node[:apache][:cache_dir] %>/mod_auth_openid.db
+        AuthOpenIDUserProgram /usr/local/bin/mod_auth_openid.rb
+    </Location>
+
+    RewriteEngine On
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/
+    RewriteRule ^(.*)index\.html$ $1 [R=301,L]
+
+</VirtualHost>
