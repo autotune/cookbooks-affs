@@ -21,7 +21,7 @@ data_bag('groups').each do |g|
   posixGroup = data_bag_item('groups', g)
   group(g) do
     gid posixGroup['gidNumber']
-    action [:create, :manage]
+    action [:create]
   end
 end
 
@@ -29,9 +29,9 @@ search(:users, '*:*') do |u|
   user u['uid'] do
     uid u['uidNumber']
     gid u['gidNumber']
-    shell u['shell']
+    shell u['loginShell']
     comment u['gecos']
-    home u['loginShell']
+    home u['homeDirectory']
     supports :manage_home => true
     action [:create, :manage]
   end
