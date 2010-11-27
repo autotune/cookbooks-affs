@@ -15,10 +15,10 @@
   <%= @realm.upcase -%> = {
 
   <% @krb5_kdcs.each do |server| -%>
-  kdc = <%= server[:ec2][:public_ipv4].to_s %>
+  kdc = <%= server[:cloud][:public_ips] %>
   <% end -%>
 
-  admin_server = <%= @krb5_kdcs[0][:ec2][:public_ipv4].to_s %>
+  $dmin_server = <%= @krb5_kdcs.first[:cloud][:public_ips] %>
  }
 
 [domain_realm]

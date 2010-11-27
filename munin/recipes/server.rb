@@ -18,7 +18,6 @@
 #
 
 include_recipe "apache2"
-include_recipe "apache2::mod_auth_openid"
 include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_auth_pam"
 include_recipe "munin::client"
