@@ -1,0 +1,48 @@
+{
+    "license": "Apache 2.0",
+    "providing": {
+    },
+    "maintainer": "A Fistful of Enterprises, Inc.",
+    "replacing": {
+    },
+    "version": "0.8.0",
+    "maintainer_email": "sean@afistfulofservers.com",
+    "description": "Installs openssh",
+    "groupings": {
+    },
+    "recommendations": {
+    },
+    "recipes": {
+      "openssh": "Installs openssh"
+    },
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "dependencies": {
+    },
+    "long_description": "",
+    "name": "openssh",
+    "platforms": {
+      "debian": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "arch": [
+
+      ],
+      "ubuntu": [
+
+      ],
+      "redhat": [
+
+      ]
+    },
+    "conflicting": {
+    }
+  }

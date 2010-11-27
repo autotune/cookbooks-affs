@@ -201,7 +201,7 @@ class Chef
         super
         @current_resource.checksum(checksum(@current_resource.path)) if ::File.exist?(@current_resource.path)
         @current_resource.selinux_label(selinux_get_context(@current_resource.path)) if selinux_support?
-        puts "SEANDEBUG: load_current_resource @current_resource.selinux_label #{@current_resource.selinux_label}"
+        #puts "SEANDEBUG: load_current_resource @current_resource.selinux_label #{@current_resource.selinux_label}"
       end
 
       def set_all_access_controls(file)
