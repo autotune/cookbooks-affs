@@ -52,7 +52,7 @@ service "ssh" do
   action [ :enable, :start ]
 end
 
-template "sshd_config" do
+template "/etc/ssh/sshd_config" do
   source "sshd_config.erb"
   mode 0600
   notifies :reload, resources(:service => "ssh")
