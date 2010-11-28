@@ -5,15 +5,15 @@
     "maintainer": "A Fistful of Enterprises, Inc.",
     "replacing": {
     },
-    "version": "0.1.0",
-    "maintainer_email": "sean@afistfulofservers.com",
-    "description": "Installs openssh",
+    "version": "0.0.1",
+    "maintainer_email": "sean@afisffulofservers.com",
+    "description": "places a sudoers template",
     "groupings": {
     },
     "recommendations": {
     },
     "recipes": {
-      "openssh": "Installs openssh"
+      "sudo": "places a sudoers template"
     },
     "attributes": {
     },
@@ -22,7 +22,7 @@
     "dependencies": {
     },
     "long_description": "",
-    "name": "openssh",
+    "name": "sudo",
     "platforms": {
       "debian": [
 
@@ -33,7 +33,7 @@
       "centos": [
 
       ],
-      "arch": [
+      "freebsd": [
 
       ],
       "ubuntu": [

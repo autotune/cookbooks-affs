@@ -30,6 +30,12 @@ packages.each do |pkg|
   package pkg
 end
 
+template "sshd_config" do
+  source "sshd_config.erb"
+  mode 0600
+  notifies :reload, resources(:service => "ssh")
+end
+
 service "ssh" do
   case node[:platform]
   when "centos","redhat","fedora","arch"
