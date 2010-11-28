@@ -104,7 +104,8 @@ class Chef
     class File < Chef::Provider
 
       def compare_selinux_label
-        @current_resource.selinux_label == @new_resource.selinux_label
+        @current_resource.selinux_label == @new_resource.selinux_label ||
+        @current_resource.selinux_label == selinux_get_default_context(@new_resource.path)
       end
 
       def set_selinux_label
