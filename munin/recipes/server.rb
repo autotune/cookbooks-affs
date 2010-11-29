@@ -32,23 +32,17 @@ cookbook_file "/etc/cron.d/munin" do
   backup 0
 end
 
-munin_servers = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
+nodes = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
+nodes.delete_if { |x| x[:cloud][:public_ips].nil? }
 
-if node[:public_domain]
-  case node[:app_environment]
-  when "production"
-    public_domain = node[:public_domain]
-  else
-    public_domain = "#{node[:app_environment]}.#{node[:public_domain]}"
-  end
-else
-  public_domain = node[:domain]
+nodes.each do |n|
+  puts "SEANDEBUG: #{n[:cloud][:public_ips][0]}"
 end
 
 template "/etc/munin/munin.conf" do
   source "munin.conf.erb"
   mode 0644
-  variables(:munin_nodes => munin_servers)
+  variables(:munin_nodes => nodes)
 end
 
 apache_site "000-default" do
@@ -62,10 +56,8 @@ if node[:platform] == "fedora" then
 end
 
 template "#{node[:apache][:dir]}/sites-available/munin.conf" do
-  #source "openid.apache2.conf.erb"
   source "localsystem.apache2.conf.erb"
   mode 0644
-  variables :public_domain => public_domain
   if File.symlink?("#{node[:apache][:dir]}/sites-enabled/munin.conf")
     notifies :reload, resources(:service => "apache2")
   end

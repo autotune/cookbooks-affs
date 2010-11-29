@@ -20,6 +20,7 @@
 include_recipe "rsyslog"
 
 rsyslog_server = search(:node, "rsyslog_server:true")
+rsyslog_server.delete_if { |x| x[:cloud][:public_ips].nil? }
 
 unless node[:rsyslog][:server] 
   template "/etc/rsyslog.d/remote.conf" do
@@ -41,3 +42,5 @@ unless node[:rsyslog][:server]
     only_if do File.exists?("/etc/rsyslog.d/server.conf") end
   end
 end
+
+

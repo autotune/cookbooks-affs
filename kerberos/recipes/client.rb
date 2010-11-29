@@ -32,7 +32,7 @@ end
 template "/etc/krb5.conf" do
   source "krb5.conf.erb"
   mode 0644
-  selinux_label "system_u:object_r:krb5_conf_t:s0"
+  #selinux_label "system_u:object_r:krb5_conf_t:s0"
   variables( :krb5_kdcs => krb5_kdcs,
              :realm => realm 
   )

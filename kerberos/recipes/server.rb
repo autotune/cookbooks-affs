@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "selinux"
-
 package "pam_krb5"
 package "krb5-workstation"
 package "krb5-server"
@@ -34,7 +32,7 @@ end
 template "/etc/krb5.conf" do
   source "server.krb5.conf.erb"
   mode 0644
-  selinux_label "system_u:object_r:krb5_conf_t:s0"
+#  selinux_label "system_u:object_r:krb5_conf_t:s0"
   variables( :krb5_kdcs => krb5_kdcs,
              :realm => realm  
   )
