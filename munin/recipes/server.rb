@@ -33,10 +33,8 @@ cookbook_file "/etc/cron.d/munin" do
 end
 
 nodes = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
-nodes.delete_if { |x| x[:cloud][:public_ips].nil? }
-
-nodes.each do |n|
-  puts "SEANDEBUG: #{n[:cloud][:public_ips][0]}"
+unless nodes.empty? then
+  nodes.delete_if { |x| x[:cloud][:public_ips].nil? }
 end
 
 template "/etc/munin/munin.conf" do

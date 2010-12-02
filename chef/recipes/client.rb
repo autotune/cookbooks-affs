@@ -29,10 +29,10 @@ package "affs-chef" do
   action :install
 end
 
-cron "chef-client" do
-  hour "*/30"
-  command "/usr/bin/chef-client"
-end
+#cron "chef-client" do
+#  hour "*/30"
+#  command "/usr/bin/chef-client"
+#end
 
 ruby_block "reload_client_config" do
   block do

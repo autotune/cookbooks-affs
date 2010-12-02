@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: munin
+# Cookbook Name:: postgresql90
 # Recipe:: client
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010, afistfulofservers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,21 +16,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-package "munin-node" do
-  action :install
-end
-
-service "munin-node" do
-  supports :restart => true
-  action [ :enable, :start ]
-end
-
-munin_servers = search(:node, "role:monitoring")
-
-template "/etc/munin/munin-node.conf" do
-  source "munin-node.conf.erb"
-  mode 0644
-  variables :munin_servers => munin_servers
-  notifies :restart, resources(:service => "munin-node")
-end

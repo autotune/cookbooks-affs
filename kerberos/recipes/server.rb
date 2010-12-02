@@ -62,19 +62,19 @@ end
 
 #setsebool -P allow_kerberos 1
 
-#if not File.exists?("/var/kerberos/krb5kdc/.k5.#{realm.upcase}") then
-# kdb5_util create -s 
+#unless File.exists?("/var/kerberos/krb5kdc/.k5.#{realm.upcase}") then
+#kdb5_util create -s 
 #end
 
+#kdb5_util create -s 
 #kadmin.local
 #add_policy -minlength 8 -minclasses 3 admin
 #add_policy -minlength 8 -minclasses 4 host
 #add_policy -minlength 8 -minclasses 4 service
 #add_policy -minlength 8 -minclasses 2 user
-
+#
 #addprinc -policy user sean
 #addprinc -policy user james
 #addprinc -policy user alexa
 #addprinc -policy user jonathan
-
 
