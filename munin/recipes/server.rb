@@ -40,6 +40,7 @@ end
 template "/etc/munin/munin.conf" do
   source "munin.conf.erb"
   mode 0644
+  backup false
   variables(:munin_nodes => nodes)
 end
 
@@ -56,6 +57,7 @@ end
 template "#{node[:apache][:dir]}/sites-available/munin.conf" do
   source "localsystem.apache2.conf.erb"
   mode 0644
+  backup false
   if File.symlink?("#{node[:apache][:dir]}/sites-enabled/munin.conf")
     notifies :reload, resources(:service => "apache2")
   end

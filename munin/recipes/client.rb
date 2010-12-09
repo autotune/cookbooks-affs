@@ -31,6 +31,7 @@ munin_servers = search(:node, "role:monitoring")
 template "/etc/munin/munin-node.conf" do
   source "munin-node.conf.erb"
   mode 0644
+  backup false
   variables :munin_servers => munin_servers
   notifies :restart, resources(:service => "munin-node")
 end

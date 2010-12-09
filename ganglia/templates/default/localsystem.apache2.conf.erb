@@ -1,0 +1,21 @@
+<VirtualHost *:80>
+  ServerAdmin     ops@<%= node[:domain] %>
+  ServerName      <%= node[:fqdn] %>
+	ServerAlias     ganglia ganglia.<%= node[:app_environment] %>.<%= node[:domain] %>
+  DocumentRoot    <%= node[:ganglia][:docroot] %>
+  CustomLog       <%= node[:apache][:log_dir] %>/ganglia_access.log combined
+  ErrorLog        <%= node[:apache][:log_dir] %>/ganglia_error.log
+
+  Alias /ganglia <%= node[:ganglia][:docroot] %>
+
+  <Location />
+    AuthName "Ganglia Server"
+    AuthType "Basic"
+    Require  valid-user
+  </Location>
+
+
+  RewriteEngine On
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/
+  RewriteRule ^(.*)index\.html$ $1 [R=301,L]
+</VirtualHost>

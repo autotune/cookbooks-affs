@@ -19,6 +19,9 @@
     "suggestions": {
     },
     "dependencies": {
+      "apache2": [
+
+      ]
     },
     "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
     "name": "ganglia",

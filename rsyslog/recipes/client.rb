@@ -2,7 +2,7 @@
 # Cookbook Name:: rsyslog
 # Recipe:: client
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2010 afistfulofservers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,27 +20,26 @@
 include_recipe "rsyslog"
 
 rsyslog_server = search(:node, "rsyslog_server:true")
-rsyslog_server.delete_if { |x| x[:cloud][:public_ips].nil? }
 
-unless node[:rsyslog][:server] 
-  template "/etc/rsyslog.d/remote.conf" do
-    source "remote.conf.erb"
-    backup false
-    variables(
-      :server => rsyslog_server.first[:cloud][:public_ips][0],
-      :protocol => node[:rsyslog][:protocol]
-    )
-    owner "root"
-    group "root"
-    mode 0644
-    notifies :restart, resources(:service => "rsyslog"), :delayed
-  end
+unless rsyslog_server.empty?
+  unless node[:rsyslog][:server] 
+    template "/etc/rsyslog.d/remote.conf" do
+      source "remote.conf.erb"
+      backup false
+      variables(
+        :server => rsyslog_server.first[:cloud][:public_ips][0],
+        :protocol => node[:rsyslog][:protocol]
+      )
+      owner "root"
+      group "root"
+      mode 0644
+      notifies :restart, resources(:service => "rsyslog"), :delayed
+    end
 
-  file "/etc/rsyslog.d/server.conf" do
-    action :delete
-    notifies :reload, resources(:service => "rsyslog"), :delayed
-    only_if do File.exists?("/etc/rsyslog.d/server.conf") end
+    file "/etc/rsyslog.d/server.conf" do
+      action :delete
+      notifies :reload, resources(:service => "rsyslog"), :delayed
+      only_if do File.exists?("/etc/rsyslog.d/server.conf") end
+    end
   end
 end
-
-

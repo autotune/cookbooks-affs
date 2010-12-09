@@ -17,33 +17,37 @@
 # limitations under the License.
 #
 
-include_cookbook "apache2"
-include_cookbook "apache2::mod_auth_pam"
-include_cookbook "apache2::mod_php"
+include_recipe "apache2"
+include_recipe "apache2::mod_rewrite"
+include_recipe "apache2::mod_auth_pam"
 
-package "ganglia-gmetad" do
-  action :install
+package "ganglia-gmetad" 
+package "ganglia-gmond"
+package "ganglia"
+package "ganglia-gmond-python"
+package "ganglia-web"
+
+nodes = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
+unless nodes.empty? then
+  nodes.delete_if { |x| x[:cloud][:public_ips].nil? }
 end
 
-package "ganglia-gmond" do
-  action :install
-end
-
-package "ganglia" do
-  action :install
-end
-
-package "ganglia-gmond-python" do
-  action :install
-end
-
-package "ganglia-web" do
-  action :install
-end
+puts "SEANDEBUG: #{nodes}"
 
 template "/etc/ganglia/gmond.conf" do
-  source "gmond.conf.erb"
+  source "collector.gmond.conf.erb"
+  variables(:ganglia_nodes => nodes)
   mode 0644
+  backup false
+  notifies :restart, "service[gmond]"
+end
+
+template "/etc/ganglia/gmetad.conf" do
+  source "gmetad.conf.erb"
+  variables(:ganglia_nodes => nodes)
+  mode 0644
+  backup false
+  notifies :restart, "service[gmond]"
 end
 
 template "#{node[:apache][:dir]}/sites-available/ganglia.conf" do
@@ -54,10 +58,19 @@ template "#{node[:apache][:dir]}/sites-available/ganglia.conf" do
   end
 end
 
+service "gmond" do
+  supports :restart => true
+  action [:start, :enable]
+end
+
+service "gmetad" do
+  supports :restart => true
+  action [:start, :enable]
+end
+
 apache_site "ganglia.conf"
 
 # is this really necessary?
 apache_site "000-default" do
   enable false
 end
-
