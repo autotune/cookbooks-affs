@@ -22,9 +22,6 @@
     "suggestions": {
     },
     "dependencies": {
-      "selinux": [
-
-      ],
       "apache2": [
 
       ]

@@ -1,5 +1,3 @@
-/* This configuration is as close to 2.5.x default behavior as possible
-   The values closely match ./gmond/metric.h definitions in 2.5.x */
 globals {
   daemonize = yes
   setuid = yes
@@ -12,44 +10,30 @@ globals {
   host_dmax = 0 /*secs */
   cleanup_threshold = 300 /*secs */
   gexec = no
-  send_metadata_interval = 0
+  send_metadata_interval = 15
+}
+
+cluster {
+  name = "afistfulofservers.net"
+  owner = "afistfulofservers.net"
+  latlong = "unspecified"
+  url = "afistfulofservers.net"
 }
 
 /*
- * The cluster attributes specified will be used as part of the <CLUSTER>
- * tag that will wrap all hosts collected by this instance.
- */
-cluster {
-  name = "unspecified"
-  owner = "unspecified"
-  latlong = "unspecified"
-  url = "unspecified"
-}
-
-/* The host section describes attributes of the host, like the location */
-host {
-  location = "unspecified"
-}
-
-/* Feel free to specify as many udp_send_channels as you like.  Gmond
-   used to only support having a single channel */
 udp_send_channel {
-  mcast_join = 239.2.11.71
-  port = 8649
+  host = ip_of_redundant_collector
+  port = 8666
   ttl = 1
 }
+*/
 
-/* You can specify as many udp_recv_channels as you like as well. */
-udp_recv_channel {
-  mcast_join = 239.2.11.71
-  port = 8649
-  bind = 239.2.11.71
-}
-
-/* You can specify as many tcp_accept_channels as you like to share
-   an xml description of the state of the cluster */
 tcp_accept_channel {
   port = 8649
+}
+
+udp_recv_channel {
+    port = 8666
 }
 
 /* Each metrics module that is referenced by gmond must be specified and
