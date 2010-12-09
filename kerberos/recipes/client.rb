@@ -22,31 +22,28 @@ package "krb5-workstation"
 realm = node[:domain]
 krb5_kdcs = search(:node, "role:authentication")
 
-# if no results, assume we're the first one
-if krb5_kdcs.empty? then
-  krb5_kdcs << node
-end
+unless krb5_kdcs.empty?
+  template "/etc/krb5.conf" do
+    source "krb5.conf.erb"
+    mode 0644
+    backup false
+    #selinux_label "system_u:object_r:krb5_conf_t:s0"
+    variables( :krb5_kdcs => krb5_kdcs,
+              :realm => realm 
+             )
+  end
 
-template "/etc/krb5.conf" do
-  source "krb5.conf.erb"
-  mode 0644
-  backup false
-  #selinux_label "system_u:object_r:krb5_conf_t:s0"
-  variables( :krb5_kdcs => krb5_kdcs,
-             :realm => realm 
-  )
-end
+  template "/etc/pam.d/system-auth-ac" do
+    source "system-auth-ac.erb"
+    mode 0644
+    backup false
+    #selinux_label "system_u:object_r:etc_t:s0"
+  end
 
-template "/etc/pam.d/system-auth-ac" do
-  source "system-auth-ac.erb"
-  mode 0644
-  backup false
-  #selinux_label "system_u:object_r:etc_t:s0"
-end
-
-template "/etc/pam.d/password-auth-ac" do
-  source "password-auth-ac.erb"
-  mode 0644
-  backup false
-  #selinux_label "system_u:object_r:etc_t:s0"
+  template "/etc/pam.d/password-auth-ac" do
+    source "password-auth-ac.erb"
+    mode 0644
+    backup false
+    #selinux_label "system_u:object_r:etc_t:s0"
+  end
 end
