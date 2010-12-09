@@ -22,8 +22,6 @@
 # limitations under the License.
 #
 
-include_recipe "selinux"
-
 # packages
 packages = case node[:platform]
            when "fedora", "redhat", "centos", "scientific"
