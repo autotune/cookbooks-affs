@@ -25,7 +25,6 @@ define :web_app, :template => "web_app.conf.erb" do
   include_recipe "apache2::mod_rewrite"
   include_recipe "apache2::mod_deflate"
   include_recipe "apache2::mod_headers"
-  include_recipe "selinux"
 
   template "#{node[:apache][:dir]}/sites-available/#{application_name}.conf" do
     source params[:template]

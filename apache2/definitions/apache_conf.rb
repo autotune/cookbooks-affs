@@ -18,7 +18,6 @@
 #
 
 define :apache_conf do
-  include_recipe "selinux"
 
   template "#{node[:apache][:dir]}/mods-available/#{params[:name]}.conf" do
     source "mods/#{params[:name]}.conf.erb"

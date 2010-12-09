@@ -19,7 +19,6 @@
 
 define :apache_site, :enable => true do
   include_recipe "apache2"
-  include_recipe "selinux"
 
   if params[:enable]
     execute "a2ensite #{params[:name]}" do

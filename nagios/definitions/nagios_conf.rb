@@ -21,7 +21,6 @@
 # limitations under the License.
 #
 define :nagios_conf, :variables => {}, :config_subdir => true do
-  include_recipe "selinux"
 
   subdir = if params[:config_subdir]
              "/#{node[:nagios][:config_subdir]}/"
