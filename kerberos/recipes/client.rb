@@ -16,8 +16,6 @@
 # limitations under the License.
 #
 
-include_recipe "selinux"
-
 package "pam_krb5"
 package "krb5-workstation"
 

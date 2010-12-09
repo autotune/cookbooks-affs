@@ -27,7 +27,6 @@ include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_auth_openid"
 include_recipe "apache2::mod_cgi"
 include_recipe "nagios::client"
-include_recipe "selinux"
 
 # packages 
 packages = case node[:platform]
@@ -136,7 +135,7 @@ directory "#{node[:nagios][:httplog_dir]}" do
   owner "nagios"
   group node[:apache][:user]
   mode "0755"
-  selinux_label "system_u:object_r:nagios_log_t:s0"
+  #selinux_label "system_u:object_r:nagios_log_t:s0"
 end
 
 execute "archive default nagios object definitions" do
@@ -147,7 +146,7 @@ end
 file "#{node[:apache][:dir]}/conf.d/nagios3.conf" do
   action :delete
   backup false
-  selinux_label "system_u:object_r:nagios_conf_t:s0"
+  #selinux_label "system_u:object_r:nagios_conf_t:s0"
 end
 
 apache_site "000-default" do

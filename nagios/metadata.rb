@@ -17,4 +17,3 @@ debian_family = [ "debian","ubuntu" ]
 end
 
 depends "apache2"
-depends "selinux"

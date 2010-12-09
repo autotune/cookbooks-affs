@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "selinux"
-
 package "apache2" do
   case node[:platform]
   when "centos","redhat","fedora","suse","scientific"
