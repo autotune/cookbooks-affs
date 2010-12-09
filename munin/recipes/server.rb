@@ -48,7 +48,8 @@ apache_site "000-default" do
   enable false
 end
 
-if node[:platform] == "fedora" then
+case node[:platform]
+when "fedora", "redhat", "centos", "scientific"
   file "/var/www/html/munin/.htaccess" do
     action [:delete]
   end
