@@ -16,7 +16,7 @@
 
   kdc = 127.0.0.1
 
-  admin_server = <%= @krb5_kdcs[0][:ec2][:public_ipv4].to_s %>
+  admin_server = <%= @krb5_kdcs[0][:cloud][:public_ips][0] %>
  }
 
 [domain_realm]
