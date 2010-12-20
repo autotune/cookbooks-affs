@@ -18,7 +18,7 @@
   kdc = <%= server[:cloud][:public_ips] %>
   <% end -%>
 
-  $dmin_server = <%= @krb5_kdcs.first[:cloud][:public_ips] %>
+  admin_server = <%= @krb5_kdcs.first[:cloud][:public_ips] %>
  }
 
 [domain_realm]
