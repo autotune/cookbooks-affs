@@ -1,0 +1,44 @@
+$TTL    <%= @ttl %>
+@          IN      NS     <%= @nameserver %>.
+<%= @zone %>.    IN    SOA  <%= @nameserver %>. hostmaster.<%= @zone %>. (
+                              2003080800 ; sn = serial number
+                              172800     ; ref = refresh = 2d
+                              900        ; ret = update retry = 15m
+                              1209600    ; ex = expiry = 2w
+                              3600       ; min = minimum = 1h
+                              )
+
+; NS records
+<% @nameservers.each do |nameserver| -%>
+IN      NS  <%= nameserver['fqdn'] %>.
+<% end -%>
+
+; MX records
+<% @mxrecords.each do |mxrecord| -%>
+IN  MX  <%= mxrecord['weight'] %> <%= mxrecord['fqdn'] %>.
+<% end -%>
+
+; SRV records
+<% @srvrecords.each do |srvrecord| -%>
+_<%= srvrecord['srvce'] %>._<%= srvrecord['proto'] %> IN SRV <%= srvrecord['pri'] %> <%= srvrecord['weight'] %>  <%= srvrecord['port'] %>  <%= srvrecord['fqdn'] %>.
+<% end -%>
+
+; A records
+<% @arecords.each do |arecord| -%>
+<%= arecord['fqdn'] %>. IN  A <%= arecord['ipv4addr'] %>
+<% end -%>
+
+; AAAA records
+<% @aaaarecords.each do |aaaarecord| -%>
+<%= aaaarecord['fqdn'] %>. IN  AAAA <%= aaaarecord['ipv6addr'] %>
+<% end -%>
+
+; CNAME records
+<% @cnamerecords.each do |cnamerecord| -%>
+<%= cnamerecord['alias'] %>. IN  CNAME <%= cnamerecord['canonicalname'] %>
+<% end -%>
+
+; TXT records
+<% @txtrecords.each do |txtrecord| -%>
+<%= txtrecord['fqdn'] %>. IN  TXT <%= txtrecord['text'] %>
+<% end -%>

@@ -26,7 +26,7 @@ end
 
 # patch this properly. ugly hack.
 if File.exists?("/etc/init.d/postgresql-9.0") then
-  exec "mv /etc/init.d/postgresql-9.0 /etc/init.d/postgresql90-server"
+  exec "mv /etc/init.d/postgresql-9.0 /etc/init.d/postgresql90"
 end
 
 # patch this properly. ugly hack.
@@ -43,11 +43,29 @@ end
 
 fix_sysv_symlinks
 
-if not File.exists?("/var/lib/pgsql/9.0/data/base") then
-  exec "/sbin/service postgresql90 initdb"
+unless File.exists?("/var/lib/pgsql/9.0/data/base") then
+  script "init postgres db" do
+    code <<-EOH
+      "/sbin/service postgresql90 initdb"
+    EOH
+  end
 end
+
+
+####
 
 service "postgresql90" do
   supports :restart => true
   action [ :enable, :start ]
 end
+
+postgresql90_user "affs" do
+  action :create
+  provider "postgresql90_user"
+end
+
+postgresql90_database "affstest" do
+  action :create
+  provider "postgresql90_database"  
+end
+
