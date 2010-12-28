@@ -17,21 +17,23 @@
 # limitations under the License.
 #
 
-package "munin-node" do
-  action :install
-end
+munin_servers = search(:node, "munin_server:true")
 
-service "munin-node" do
-  supports :restart => true
-  action [ :enable, :start ]
-end
+unless munin_servers.empty?
+  package "munin-node" do
+    action :install
+  end
 
-munin_servers = search(:node, "role:monitoring")
+  template "/etc/munin/munin-node.conf" do
+    source "munin-node.conf.erb"
+    mode 0644
+    backup false
+    variables :munin_servers => munin_servers
+    notifies :restart, "service[munin-node]"
+  end
 
-template "/etc/munin/munin-node.conf" do
-  source "munin-node.conf.erb"
-  mode 0644
-  backup false
-  variables :munin_servers => munin_servers
-  notifies :restart, "service[munin-node]"
+  service "munin-node" do
+    supports :restart => true
+    action [ :enable, :start ]
+  end
 end
