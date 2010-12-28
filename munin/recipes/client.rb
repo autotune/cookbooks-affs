@@ -33,5 +33,5 @@ template "/etc/munin/munin-node.conf" do
   mode 0644
   backup false
   variables :munin_servers => munin_servers
-  notifies :restart, resources(:service => "munin-node")
+  notifies :restart, "service[munin-node]"
 end

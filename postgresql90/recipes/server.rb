@@ -43,12 +43,9 @@ end
 
 fix_sysv_symlinks
 
-unless File.exists?("/var/lib/pgsql/9.0/data/base") then
-  script "init postgres db" do
-    code <<-EOH
-      "/sbin/service postgresql90 initdb"
-    EOH
-  end
+execute "executing postgresql initdb" do
+  not_if "ls -la /var/lib/pgsql/9.0/data/base"
+  command "/sbin/service postgresql90 initdb"
 end
 
 

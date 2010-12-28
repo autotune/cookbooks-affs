@@ -19,4 +19,16 @@
 
 include_recipe "munin::client"
 
+package "perl-DBD-Pg"
+
+postgresql90_user "munin" do
+  action :create
+  provider "postgresql90_user"
+end
+
+execute "enable munin postgresql plugins" do
+  not_if "ls /etc/munin/plugins/postgres*"
+  #command "munin-node-configure --shell | grep postgres > /tmp/munin-postgres-commands ; . /tmp/munin-postgres-commands"
+  command "munin-node-configure --shell | grep postgres | sh"
+end
 
