@@ -59,39 +59,39 @@ end
 # begin crazyland
 ####################
 
-# nameservers
-nameservers = [{ 'fqdn', 'dev.usease.aws.afistfulofservers.net' }]
-
-# mxrecords
-mxrecords = [{
-    'fqdn', 'smtp.dev.eseast.aws.afistfulofservers.net',
-    'weight', '10' 
-  }]
-
-# srvrecords
-srvrecords = []
-# arecords
-arecords = []
-# aaaarecords
-aaaarecords = []
-# cnamerecords
-aaaarecords = []
-# txtrecords
-aaaarecords = []
-
-template "/var/named/chroot/var/named/master/dev.useast.aws.afistfulofservers.net.zone" do
-  source "zone.erb"
-  mode 0644
-  # arrays of hashes: okay to pass in empty arrays, but not Nill.
-  variables(
-    :nameservers => nameservers
-    :mxrecords => mxrecords
-    :srvrecords => srvrecords
-    :arecords => arecords
-    :aaaarecords => aaaarecords
-    :cnamerecords => cnamerecords
-    :txtrecords => txtrecords
-  )
-end
-
-
+## nameservers
+#nameservers = [{ 'fqdn', 'dev.usease.aws.afistfulofservers.net' }]
+#
+## mxrecords
+#mxrecords = [{
+#    'fqdn', 'smtp.dev.eseast.aws.afistfulofservers.net',
+#    'weight', '10' 
+#  }]
+#
+## srvrecords
+#srvrecords = []
+## arecords
+#arecords = []
+## aaaarecords
+#aaaarecords = []
+## cnamerecords
+#aaaarecords = []
+## txtrecords
+#aaaarecords = []
+#
+#template "/var/named/chroot/var/named/master/dev.useast.aws.afistfulofservers.net.zone" do
+#  source "zone.erb"
+#  mode 0644
+#  # arrays of hashes: okay to pass in empty arrays, but not Nill.
+#  variables(
+#    :nameservers => nameservers
+#    :mxrecords => mxrecords
+#    :srvrecords => srvrecords
+#    :arecords => arecords
+#    :aaaarecords => aaaarecords
+#    :cnamerecords => cnamerecords
+#    :txtrecords => txtrecords
+#  )
+#end
+#
+#
