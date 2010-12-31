@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
+node.set[:ganglia][:server] = true
+nodes = search(:node, "hostname:[* TO *]")
+
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_auth_pam"
@@ -27,15 +30,8 @@ package "ganglia"
 package "ganglia-gmond-python"
 package "ganglia-web"
 
-nodes = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
-unless nodes.empty? then
-  nodes.delete_if { |x| x[:cloud][:public_ips].nil? }
-end
-
-puts "SEANDEBUG: #{nodes}"
-
 template "/etc/ganglia/gmond.conf" do
-  source "collector.gmond.conf.erb"
+  source "server.gmond.conf.erb"
   variables(:ganglia_nodes => nodes)
   mode 0644
   backup false

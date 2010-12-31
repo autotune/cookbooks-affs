@@ -17,23 +17,23 @@
 # limitations under the License.
 #
 
-package "ganglia-gmond" do
-  action :install
-end
+ganglia_servers = search(:node, "ganglia_server:true")
 
-collectors = search(:node, "role:monitoring")
-unless collectors.empty? then
-  collectors.delete_if { |x| x[:cloud][:public_ips].nil? }
-end
+unless ganglia_servers.empty?
+  package "ganglia-gmond" do
+    action :install
+  end
 
-template "/etc/ganglia/gmond.conf" do
-  source "sender.gmond.conf.erb"
-  variables(:ganglia_collectors => collectors)
-  mode 0644
-  backup false
-end
+  template "/etc/ganglia/gmond.conf" do
+    source "sender.gmond.conf.erb"
+    variables(:ganglia_servers => ganglia_servers)
+    mode 0644
+    backup false
+    notifies :restart, "service[gmond]"
+  end
 
-service "gmond" do
-  supports :restart => true
-  action [:start, :enable]
+  service "gmond" do
+    supports :restart => true
+    action [:start, :enable]
+  end
 end

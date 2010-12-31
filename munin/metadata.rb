@@ -2,11 +2,12 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Instsalls and configures munin"
-version           "0.9.1"
+version           "0.9.2"
 
 depends "apache2"
 supports "debian"
 supports "ubuntu"
+supports "centos"
 
 recipe "munin", "Empty, use one of the other recipes"
 recipe "munin::client", "Instlls munin and configures a client by searching for the server, which should have a role named monitoring"

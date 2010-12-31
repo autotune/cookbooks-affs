@@ -18,6 +18,7 @@
 #
 
 node.set[:munin][:server] = true
+nodes = search(:node, "hostname:[* TO *]")
 
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
@@ -33,8 +34,6 @@ cookbook_file "/etc/cron.d/munin" do
   group "root"
   backup 0
 end
-
-nodes = search(:node, "hostname:[* TO *]")
 
 template "/etc/munin/munin.conf" do
   source "munin.conf.erb"
