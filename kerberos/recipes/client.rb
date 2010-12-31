@@ -16,30 +16,27 @@
 # limitations under the License.
 #
 
-package "pam_krb5"
-package "krb5-workstation"
-
+krb5_kdcs = search(:node, "kerberos_server:true")
 realm = node[:domain]
-krb5_kdcs = search(:node, "role:authentication")
 
 unless krb5_kdcs.empty?
+  package "pam_krb5"
+  package "krb5-workstation"
+
   template "/etc/krb5.conf" do
     source "krb5.conf.erb"
     mode 0644
     backup false
     #selinux_label "system_u:object_r:krb5_conf_t:s0"
     variables( :krb5_kdcs => krb5_kdcs,
-              :realm => realm 
-             )
+              :realm => realm )
   end
-
   template "/etc/pam.d/system-auth-ac" do
     source "system-auth-ac.erb"
     mode 0644
     backup false
     #selinux_label "system_u:object_r:etc_t:s0"
   end
-
   template "/etc/pam.d/password-auth-ac" do
     source "password-auth-ac.erb"
     mode 0644

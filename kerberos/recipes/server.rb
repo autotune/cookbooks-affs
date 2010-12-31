@@ -17,35 +17,35 @@
 # limitations under the License.
 #
 
-package "pam_krb5"
-package "krb5-workstation"
-package "krb5-server"
+# only support single master kerberos for now. 
+# I hope to try this out if I can get around to it.
 
-realm = node[:domain]
-krb5_kdcs = search(:node, "role:authentication")
+node.set[:kerberos][:server] = true
+
+krb5_kdcs = search(:node, "kerberos_server:true")
 
 # if no results, assume we're the first one
 if krb5_kdcs.empty? then
   krb5_kdcs << node
 end
 
+realm = node[:domain]
+
+# templates should be identical to kerberos::client
 template "/etc/krb5.conf" do
-  source "server.krb5.conf.erb"
+  source "krb5.conf.erb"
   mode 0644
   backup false
-#  selinux_label "system_u:object_r:krb5_conf_t:s0"
+  #selinux_label "system_u:object_r:krb5_conf_t:s0"
   variables( :krb5_kdcs => krb5_kdcs,
-             :realm => realm  
-  )
+            :realm => realm )
 end
-
 template "/etc/pam.d/system-auth-ac" do
   source "system-auth-ac.erb"
   mode 0644
   backup false
   #selinux_label "system_u:object_r:etc_t:s0"
 end
-
 template "/etc/pam.d/password-auth-ac" do
   source "password-auth-ac.erb"
   mode 0644
@@ -53,15 +53,19 @@ template "/etc/pam.d/password-auth-ac" do
   #selinux_label "system_u:object_r:etc_t:s0"
 end
 
+package "krb5-server"
+
 service "krb5kdc" do
-  supports :restart => true
   action [:enable, :start]
 end
 
 service "kadmin" do
-  supports :restart => true
   action [:enable, :start]
 end
+
+
+# search through data bags and use kerberos_user LWRP to idempotently make principles
+# (implement me)
 
 #setsebool -P allow_kerberos 1
 
@@ -69,12 +73,12 @@ end
 #kdb5_util create -s 
 #end
 
-#kdb5_util create -s 
-#kadmin.local
+#/usr/kerberos/sbin/kdb5_util create -s 
+#/usr/kerberos/sbin/kadmin.local
 #add_policy -minlength 8 -minclasses 3 admin
 #add_policy -minlength 8 -minclasses 4 host
 #add_policy -minlength 8 -minclasses 4 service
 #add_policy -minlength 8 -minclasses 2 user
 #
 #addprinc -policy user someara
-#
+###

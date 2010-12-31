@@ -25,6 +25,7 @@ when "centos","redhat","fedora","suse"
   package "nmap"
   package "telnet"
   package "tcpdump"
+  package "mlocate"
 when "debian","ubuntu"
 end
 
