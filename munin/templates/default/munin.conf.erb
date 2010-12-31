@@ -10,9 +10,9 @@ rundir  /var/run/munin
 tmpldir /etc/munin/templates
 
 # a simple host tree
-<% @munin_nodes.each do |system| -%>
-[<%= system[:hostname] %>]
-    address <%= system[:cloud][:public_ips][0] %>
+<% @munin_nodes.each do |munin_node| -%>
+[<%= munin_node[:fqdn] %>]
+    address <%= munin_node[:fqdn] %>
     use_node_name yes
 
 <% end -%>

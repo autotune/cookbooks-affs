@@ -34,10 +34,7 @@ cookbook_file "/etc/cron.d/munin" do
   backup 0
 end
 
-nodes = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
-unless nodes.empty? then
-  nodes.delete_if { |x| x[:cloud][:public_ips].nil? }
-end
+nodes = search(:node, "hostname:[* TO *]")
 
 template "/etc/munin/munin.conf" do
   source "munin.conf.erb"

@@ -7,7 +7,7 @@
     },
     "version": "0.0.1",
     "maintainer_email": "someara@afistfulofservers.com",
-    "description": "Installs/Configures bind",
+    "description": "Installs/Configures etchosts",
     "groupings": {
     },
     "recommendations": {
@@ -21,7 +21,7 @@
     "dependencies": {
     },
     "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
-    "name": "bind",
+    "name": "etchosts",
     "platforms": {
     },
     "conflicting": {
