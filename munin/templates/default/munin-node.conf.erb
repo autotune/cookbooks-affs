@@ -29,7 +29,7 @@ ignore_file \.rpm(save|new)$
 # the allow line as many times as you'd like
 
 <% @munin_servers.each do |munin_server| -%>
-allow ^<%= munin_server[:fqdn].gsub(/\./, '\.') %>$
+allow ^<%= munin_server[:cloud][:public_ips][0].gsub(/\./, '\.') %>$
 <% end -%>
 allow ^127\.0\.0\.1$
 

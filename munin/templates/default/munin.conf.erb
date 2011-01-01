@@ -12,7 +12,7 @@ tmpldir /etc/munin/templates
 # a simple host tree
 <% @munin_nodes.each do |munin_node| -%>
 [<%= munin_node[:fqdn] %>]
-    address <%= munin_node[:fqdn] %>
+    address <%= munin_node[:cloud][:public_ips][0] %>
     use_node_name yes
 
 <% end -%>
