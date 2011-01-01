@@ -15,7 +15,7 @@
   <%= @realm.upcase -%> = {
 
   <% @krb5_kdcs.each do |krb5_kdc| -%>
-  kdc = <%= krb5_kdc[:fqdn] %>
+  kdc = <%= krb5_kdc[:cloud][:public_ips][0] %>
   <% end -%>
 
   admin_server = <%= @krb5_kdcs[0][:cloud][:public_ips][0] %>
