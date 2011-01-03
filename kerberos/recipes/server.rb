@@ -79,26 +79,26 @@ end
 
 # configure policy
 execute "setting kerberos admin policy" do
-  not_if "kadmin.local -q listpols | grep admin"
-  command "kadmin.local -q \"add_policy -minlength 8 -minclasses 3 admin\""
+  not_if "/usr/kerberos/sbin/kadmin.local -q listpols | grep admin"
+  command "/usr/kerberos/sbin/kadmin.local -q \"add_policy -minlength 8 -minclasses 3 admin\""
 end
 
 # configure policy
 execute "setting kerberos host policy" do
-  not_if "kadmin.local -q listpols | grep host"
-  command "kadmin.local -q \"add_policy -minlength 8 -minclasses 4 host\""
+  not_if "/usr/kerberos/sbin/kadmin.local -q listpols | grep host"
+  command "/usr/kerberos/sbin/kadmin.local -q \"add_policy -minlength 8 -minclasses 4 host\""
 end
 
 # configure policy
 execute "setting kerberos service policy" do
-  not_if "kadmin.local -q listpols | grep service"
-  command "kadmin.local -q \"add_policy -minlength 8 -minclasses 4 service\""
+  not_if "/usr/kerberos/sbin/kadmin.local -q listpols | grep service"
+  command "/usr/kerberos/sbin/kadmin.local -q \"add_policy -minlength 8 -minclasses 4 service\""
 end
 
 # configure policy
 execute "setting kerberos user policy" do
-  not_if "kadmin.local -q listpols | grep user"
-  command "kadmin.local -q \"add_policy -minlength 8 -minclasses 2 user\""
+  not_if "/usr/kerberos/sbin/kadmin.local -q listpols | grep user"
+  command "/usr/kerberos/sbin/kadmin.local -q \"add_policy -minlength 8 -minclasses 2 user\""
 end
 
 # services
@@ -111,10 +111,11 @@ service "kadmin" do
 end
 
 # set a random password, have an admin manually change it later.
+# TODO make random password generator better
 search(:users, '*:*') do |u|
   kerberos_user u['uid'] do
     action :create
-    password `pwgen 8 1`.chomp
+    password (0...8).map{65.+(rand(25)).chr}.join
   end
 end
 
