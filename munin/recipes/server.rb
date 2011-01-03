@@ -18,7 +18,7 @@
 #
 
 node.set[:munin][:server] = true
-nodes = search(:node, "hostname:[* TO *]")
+munin_clients = search(:node, "munin_client:true")
 
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
@@ -39,7 +39,7 @@ template "/etc/munin/munin.conf" do
   source "munin.conf.erb"
   mode 0644
   backup false
-  variables(:munin_nodes => nodes)
+  variables(:munin_clients => munin_clients)
 end
 
 apache_site "000-default" do

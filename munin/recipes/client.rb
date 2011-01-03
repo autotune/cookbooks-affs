@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+node.set[:munin][:client] = true
 munin_servers = search(:node, "munin_server:true")
 
 unless munin_servers.empty?
