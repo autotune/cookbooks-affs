@@ -31,6 +31,8 @@ end
 
 realm = node[:domain]
 
+package "pam_krb5"
+package "krb5-workstation"
 package "krb5-server"
 package "expect"
 package "pwgen"
