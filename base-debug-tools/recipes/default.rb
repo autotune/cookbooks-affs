@@ -27,6 +27,7 @@ when "centos","redhat","fedora","suse"
   package "tcpdump"
   package "mlocate"
   package "setuptool"
+  package "yum-utils"
 when "debian","ubuntu"
 end
 

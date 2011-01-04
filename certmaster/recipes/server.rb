@@ -17,11 +17,23 @@
 # limitations under the License.
 #
 
+node.set[:certmaster][:server] = true
+certmaster_clients = search(:node, "certmaster_client:true")
+
 package "certmaster"
 package "func"
+
+template "/etc/certmaster/certmaster.conf" do
+  source "certmaster.conf.erb"
+  notifies :restart, "service[certmaster]"
+end
 
 service "certmaster" do
   action [:enable,:start]
 end
 
-
+# if no cert, request one.
+execute "requesting certmaster certificate" do
+  not_if "ls /var/lib/certmaster/certmaster/certs.#{node[:hostname]}"
+  command "/usr/bin/certmaster-request "
+end
