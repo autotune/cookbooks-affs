@@ -17,15 +17,28 @@
 # limitations under the License.
 #
 
+include_recipe "certmaster::client"
+
 node.set[:certmaster][:server] = true
-certmaster_clients = search(:node, "certmaster_client:true")
+certmaster_servers = search(:node, "certmaster_server:true")
+
+if certmaster_servers.empty? then
+  certmaster_servers << node
+end
 
 package "certmaster"
 package "func"
 
 template "/etc/certmaster/certmaster.conf" do
   source "certmaster.conf.erb"
+  variables :certmaster_servers => certmaster_servers
   notifies :restart, "service[certmaster]"
+end
+
+template "/etc/certmaster/minion.conf" do
+  source "minion.conf.erb"
+  mode 0644
+  variables :certmaster_servers => certmaster_servers
 end
 
 service "certmaster" do
@@ -35,5 +48,5 @@ end
 # if no cert, request one.
 execute "requesting certmaster certificate" do
   not_if "ls /var/lib/certmaster/certmaster/certs.#{node[:hostname]}"
-  command "/usr/bin/certmaster-request "
+  command "/usr/bin/certmaster-request"
 end

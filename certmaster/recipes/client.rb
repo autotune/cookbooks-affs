@@ -28,10 +28,12 @@ unless certmaster_servers.empty?
     mode 0644
     variables :certmaster_servers => certmaster_servers
   end
-end
 
-# if no cert, request one.
-execute "requesting certmaster certificate" do
-  not_if "ls /etc/pki/certmaster/#{node[:hostname]}.cert"
-  command "/usr/bin/certmaster-request "
+  unless node[:certmaster][:server]
+    # if no cert, request one.
+    execute "requesting certmaster certificate" do
+      not_if "ls /etc/pki/certmaster/#{node[:hostname]}.pem"
+    command "/usr/bin/certmaster-request "
+    end
+  end
 end

@@ -2,7 +2,7 @@
 # databases, the HTML output, and the logs, severally.  They all
 # must be writable by the user running munin-cron.
 dbdir   /var/lib/munin
-htmldir <%= node[:munin][:docroot] %>
+htmldir <%= client[:munin][:docroot] %>
 logdir  /var/log/munin
 rundir  /var/run/munin
 
@@ -10,9 +10,9 @@ rundir  /var/run/munin
 tmpldir /etc/munin/templates
 
 # a simple host tree
-<% @munin_nodes.each do |munin_node| -%>
-[<%= munin_node[:fqdn] %>]
-    address <%= munin_node[:cloud][:public_ips][0] %>
-    use_node_name yes
+<% @munin_clients.each do |munin_client| -%>
+[<%= munin_client[:fqdn] %>]
+    address <%= munin_client[:cloud][:public_ips][0] %>
+    use_client_name yes
 
 <% end -%>
