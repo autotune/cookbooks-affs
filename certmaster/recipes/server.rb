@@ -47,6 +47,7 @@ end
 
 # if no cert, request one.
 execute "requesting certmaster certificate" do
-  not_if "ls /var/lib/certmaster/certmaster/certs.#{node[:hostname]}"
+  not_if "ls /etc/pki/certmaster/#{node[:hostname]}.pem"
   command "/usr/bin/certmaster-request"
 end
+
