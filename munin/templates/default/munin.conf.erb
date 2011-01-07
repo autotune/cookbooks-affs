@@ -2,7 +2,7 @@
 # databases, the HTML output, and the logs, severally.  They all
 # must be writable by the user running munin-cron.
 dbdir   /var/lib/munin
-htmldir <%= client[:munin][:docroot] %>
+htmldir <%= node[:munin][:docroot] %>
 logdir  /var/log/munin
 rundir  /var/run/munin
 
