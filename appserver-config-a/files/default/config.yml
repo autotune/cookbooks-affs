@@ -1,0 +1,12 @@
+environment: production
+pid: /srv/affs-rubywebserverinfo/pids/thin.pid
+log: /srv/affs-rubywebserverinfo/logs/thin.log
+chdir: /srv/affs-rubywebserverinfo/
+rackup: /srv/affs-rubywebserverinfo/config.ru
+timeout: 30
+port: 5000
+max_conns: 1024
+max_persistent_conns: 512
+address: 127.0.0.1
+servers: 4
+daemonize: true
