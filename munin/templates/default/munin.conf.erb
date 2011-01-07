@@ -13,6 +13,6 @@ tmpldir /etc/munin/templates
 <% @munin_clients.each do |munin_client| -%>
 [<%= munin_client[:fqdn] %>]
     address <%= munin_client[:cloud][:public_ips][0] %>
-    use_client_name yes
+    use_node_name yes
 
 <% end -%>
