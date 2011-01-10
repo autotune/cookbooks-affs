@@ -16,25 +16,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-package "perl-Cache-Memcached"
+include_recipe "munin::client"
+munin_servers = search(:node, "munin_server:true")
 
-link "/etc/munin/plugins/memcached_rates" do
-  to "/usr/share/munin/plugins/memcached_"
-  notifies :restart, "service[munin-node]"
+unless munin_servers.empty?
+  package "perl-Cache-Memcached"
+
+  link "/etc/munin/plugins/memcached_rates" do
+    to "/usr/share/munin/plugins/memcached_"
+    notifies :restart, "service[munin-node]"
+  end
+
+  link "/etc/munin/plugins/memcached_bytes" do
+    to "/usr/share/munin/plugins/memcached_"
+    notifies :restart, "service[munin-node]"
+  end
+
+  link "/etc/munin/plugins/memcached_counters" do
+    to "/usr/share/munin/plugins/memcached_"
+    notifies :restart, "service[munin-node]"
+  end
+
+  link "/etc/munin/plugins/memcached_counters" do
+    to "/usr/share/munin/plugins/memcached_"
+    notifies :restart, "service[munin-node]"
+  end
 end
-
-link "/etc/munin/plugins/memcached_bytes" do
-  to "/usr/share/munin/plugins/memcached_"
-  notifies :restart, "service[munin-node]"
-end
-
-link "/etc/munin/plugins/memcached_counters" do
-  to "/usr/share/munin/plugins/memcached_"
-  notifies :restart, "service[munin-node]"
-end
-
-link "/etc/munin/plugins/memcached_counters" do
-  to "/usr/share/munin/plugins/memcached_"
-  notifies :restart, "service[munin-node]"
-end
-

@@ -16,20 +16,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if node[:munin][:client] then
+include_recipe "munin::client"
+munin_servers = search(:node, "munin_server:true")
 
+unless munin_servers.empty?
+  # thin memory
   cookbook_file "/usr/share/munin/plugins/thin_memory_" do
     source "plugins/thin_memory-v1.txt"
     mode 0755
   end
 
-  cookbook_file "/usr/share/munin/plugins/thin_threads_" do
-    source "plugins/thin_threads-v1.txt"
-    mode 0755
+  link "/etc/munin/plugins/thins_peak_memory_" do
+    to "/usr/share/munin/plugins/thins_peak_memory_"
+    notifies :restart, "service[munin-node]"
   end
 
-  cookbook_file "/usr/share/munin/plugins/thins_peak_memory_" do
-    source "plugins/thins_peak_memory-v1.txt"
+  # thin threads
+  cookbook_file "/usr/share/munin/plugins/thin_threads_" do
+    source "plugins/thin_threads-v1.txt"
     mode 0755
   end
 
@@ -38,9 +42,16 @@ if node[:munin][:client] then
     notifies :restart, "service[munin-node]"
   end
 
-  link "/etc/munin/plugins/thins_peak_memory_" do
-    to "/usr/share/munin/plugins/thins_peak_memory_"
+  # thin peal memory
+  cookbook_file "/usr/share/munin/plugins/thins_peak_memory_" do
+    source "plugins/thins_peak_memory-v1.txt"
+    mode 0755
+  end
+
+  link "/etc/munin/plugins/thin_peak_memory_" do
+    to "/usr/share/munin/plugins/thin_peak_memory_"
     notifies :restart, "service[munin-node]"
   end
 
 end
+

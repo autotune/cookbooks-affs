@@ -18,44 +18,32 @@
 #
 
 include_recipe "munin::client"
+munin_servers = search(:node, "munin_server:true")
 
-# plugin 1
-cookbook_file "/usr/share/munin/plugins/redis_" do
-  source "plugins/redis-v3"
-  notifies :restart, "service[munin-node]"
-  mode 0755
+unless munin_servers.empty?
+  cookbook_file "/usr/share/munin/plugins/redis_" do
+    source "plugins/redis-v3"
+    notifies :restart, "service[munin-node]"
+    mode 0755
+  end
+
+  link "/etc/munin/plugins/redis_per_sec" do
+    to "/usr/share/munin/plugins/redis_"
+    notifies :restart, "service[munin-node]"
+  end
+
+  link "/etc/munin/plugins/redis_used_memory" do
+    to "/usr/share/munin/plugins/redis_"
+    notifies :restart, "service[munin-node]"
+  end
+
+  link "/etc/munin/plugins/redis_used_memory" do
+    to "/usr/share/munin/plugins/redis_"
+    notifies :restart, "service[munin-node]"
+  end
+
+  link "/etc/munin/plugins/redis_used_keys" do
+    to "/usr/share/munin/plugins/redis_"
+    notifies :restart, "service[munin-node]"
+  end
 end
-
-link "/etc/munin/plugins/redis_per_sec" do
-  to "/usr/share/munin/plugins/redis_"
-  notifies :restart, "service[munin-node]"
-end
-
-link "/etc/munin/plugins/redis_used_memory" do
-  to "/usr/share/munin/plugins/redis_"
-  notifies :restart, "service[munin-node]"
-end
-
-link "/etc/munin/plugins/redis_used_memory" do
-  to "/usr/share/munin/plugins/redis_"
-  notifies :restart, "service[munin-node]"
-end
-
-link "/etc/munin/plugins/redis_used_keys" do
-  to "/usr/share/munin/plugins/redis_"
-  notifies :restart, "service[munin-node]"
-end
-
-## plugin 2
-#cookbook_file "/usr/share/munin/plugins/redis_speed" do
-#  source "plugins/redis_speed"
-#  notifies :restart, "service[munin-node]"
-#  mode 0755
-#end
-#
-#link  "/etc/munin/plugins/redis_speed" do
-#  to "/usr/share/munin/plugins/redis_speed"
-#  notifies :restart, "service[munin-node]"
-#end
-
-

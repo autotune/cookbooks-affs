@@ -18,14 +18,13 @@
 #
 
 include_recipe "munin::client"
+munin_servers = search(:node, "munin_server:true")
 
-if node[:munin][:client] then
-
+unless munin_servers.empty?
   package "perl-LWP-UserAgent-Determined"
 
   link "/etc/munin/plugins/haproxy_" do
     to "/usr/share/munin/plugins/haproxy_"
     notifies :restart, "service[munin-node]"
   end
-
 end
