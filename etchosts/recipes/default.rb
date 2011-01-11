@@ -46,4 +46,5 @@ template "/etc/hosts" do
     :localhostentry => localhostentry,
     :nodeentries => nodeentries
   )
+  mode 0644
 end
