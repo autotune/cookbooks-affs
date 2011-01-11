@@ -70,7 +70,7 @@ module Munin
       pids.each do |t|
         #port = `lsof -p #{t} | grep LISTEN`.split[8]
         #port = port.split(":")[1]
-        port = `ps -ef | grep #{t} | grep -v grep | grep thin | awk '{ print $10 }' | awk -F: '{ print $2 }' | tr --delete '()'` 
+        port = `ps -ef | grep #{t} | grep -v grep | grep thin | awk '{ print $10 }' | awk -F: '{ print $2 }' | tr --delete '()'`.chomp
         pids_ports << [t,port]
       end
       pids_ports

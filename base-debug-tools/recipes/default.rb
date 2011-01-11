@@ -28,6 +28,7 @@ when "centos","redhat","fedora","suse"
   package "mlocate"
   package "setuptool"
   package "yum-utils"
+  package "lynx"
 when "debian","ubuntu"
 end
 

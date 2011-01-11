@@ -26,8 +26,8 @@ unless munin_servers.empty?
     mode 0755
   end
 
-  link "/etc/munin/plugins/thins_peak_memory_" do
-    to "/usr/share/munin/plugins/thins_peak_memory_"
+  link "/etc/munin/plugins/thin_memory_" do
+    to "/usr/share/munin/plugins/thin_memory_"
     notifies :restart, "service[munin-node]"
   end
 
@@ -42,14 +42,14 @@ unless munin_servers.empty?
     notifies :restart, "service[munin-node]"
   end
 
-  # thin peal memory
+  # thins peak memory
   cookbook_file "/usr/share/munin/plugins/thins_peak_memory_" do
     source "plugins/thins_peak_memory-v1.txt"
     mode 0755
   end
 
-  link "/etc/munin/plugins/thin_peak_memory_" do
-    to "/usr/share/munin/plugins/thin_peak_memory_"
+  link "/etc/munin/plugins/thins_peak_memory_" do
+    to "/usr/share/munin/plugins/thins_peak_memory_"
     notifies :restart, "service[munin-node]"
   end
 

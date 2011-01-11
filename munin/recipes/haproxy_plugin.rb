@@ -23,8 +23,14 @@ munin_servers = search(:node, "munin_server:true")
 unless munin_servers.empty?
   package "perl-LWP-UserAgent-Determined"
 
+  cookbook_file "/usr/share/munin/plugins/haproxy_" do
+    source "plugins/haproxy_"
+    mode 0755
+  end
+
   link "/etc/munin/plugins/haproxy_" do
     to "/usr/share/munin/plugins/haproxy_"
     notifies :restart, "service[munin-node]"
   end
+
 end
