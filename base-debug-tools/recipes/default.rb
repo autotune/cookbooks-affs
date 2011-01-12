@@ -29,6 +29,7 @@ when "centos","redhat","fedora","suse"
   package "setuptool"
   package "yum-utils"
   package "lynx"
+  package "dsniff"
 when "debian","ubuntu"
 end
 
