@@ -17,13 +17,17 @@
 # limitations under the License.
 #
 
+include_recipe "openssh::client"
+node.set[:openssh][:server] = true
+openssh_clients = search(:node, "openssh_client:true")
+
 packages = case node[:platform]
   when "centos","redhat","fedora"
-    %w{openssh-clients openssh}
+    %w{openssh}
   when "arch"
     %w{openssh}
   else
-    %w{openssh-client openssh-server}
+    %w{openssh-server}
   end
   
 packages.each do |pkg|
@@ -57,5 +61,3 @@ template "/etc/ssh/sshd_config" do
   mode 0600
   notifies :reload, resources(:service => "ssh")
 end
-
-
