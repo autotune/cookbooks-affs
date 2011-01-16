@@ -1,0 +1,22 @@
+[General]
+FullMachineName = <%= @full_machine_name %>
+SuiteSpotUserID = nobody
+SuiteSpotGroup = nobody
+AdminDomain = <%= @admin_domain %>
+ConfigDirectoryAdminID = admin
+ConfigDirectoryAdminPwd = <%= @config_directory_admin_pwd %>
+ConfigDirectoryLdapURL = <%= @config_directory_ldap_url %>
+[slapd]
+SlapdConfigForMC = Yes
+UseExistingMC = No
+ServerPort = 389
+ServerIdentifier = <%= @server_identifier %>
+Suffix = <%= @suffix %>
+RootDN = cn=Directory Manager
+RootDNPwd = <%= @root_dn_pwd %>
+[admin]
+Port = 9380
+ServerIpAddress = <%= @server_ip_address %>
+ServerAdminID = admin
+ServerAdminPwd = <%= @server_admin_pwd %>
+SysUser= nobody
