@@ -26,7 +26,7 @@ end
 
 # unless ldap server is installed and functioning
 
-package "389-ds"
+package "389-ds-base"
 
 package "openldap-clients" do
   action :install
