@@ -1,5 +1,4 @@
-#
-# Cookbook Name:: ldap
+# Cookbook Name:: yumrepo
 # Recipe:: default
 #
 # Copyright 2011, afistfulofservers
@@ -17,4 +16,26 @@
 # limitations under the License.
 #
 
-include_recipe "freeipa::server"
+include_recipe "yumrepo"
+
+directory "/srv/yum/CentOS/5"  do
+  action :create
+  recursive true
+end
+
+template "/root/centos5mirror-exclude.txt" do
+  source "centos5mirror-exclude.txt.erb"
+  mode 0644
+end
+
+if node[:yumrepo][:master] then
+  execute "syncing yum repo from internet" do
+    cmd =  "rsync -az"
+    cmd += " --exclude-from /root/cento5mirror-exclude.txt"
+    #    cmd += " rsync://mirror.cogentco.com/CentOS/5.5"
+    cmd += " rsync://mirror.cogentco.com/CentOS/5.5/centosplus/x86_64"
+    cmd += " /srv/yum/CentOS/5"
+    command cmd
+    ignore_failure true
+  end
+end

@@ -1,0 +1,4 @@
+# maintained by chef
+<% @nodes.each do |node| -%>
+<%= node['fqdn'] %>,<%= node['ipaddress'] %> ssh-rsa <%= node[:keys][:ssh][:host_rsa_public] %>
+<% end -%>

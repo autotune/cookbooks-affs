@@ -5,9 +5,9 @@
     "maintainer": "afistfulofservers",
     "replacing": {
     },
-    "version": "0.0.2",
+    "version": "0.0.1",
     "maintainer_email": "someara@afistfulofservers.com",
-    "description": "Installs/Configures ldap",
+    "description": "Installs/Configures sshroot2rootssh",
     "groupings": {
     },
     "recommendations": {
@@ -19,12 +19,9 @@
     "suggestions": {
     },
     "dependencies": {
-      "freeipa": [
-
-      ]
     },
     "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
-    "name": "ldap",
+    "name": "sshroot2rootssh",
     "platforms": {
     },
     "conflicting": {

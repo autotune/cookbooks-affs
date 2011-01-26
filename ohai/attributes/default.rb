@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: kerberos
-# Recipe:: client
+# Cookbook Name:: ohai
+# Attribute:: default
 #
-# Copyright 2010, afistfulofclients
+# Copyright 2010, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +17,5 @@
 # limitations under the License.
 #
 
-# only support single master kerberos for now. 
-# high availability will rely on N-way openldap
-
-include_recipe "freeipa::client"
-
-
+# FHS location would be /var/lib/chef/ohai_plugins or similar.
+default[:ohai][:plugin_path] = "/etc/chef/ohai_plugins"

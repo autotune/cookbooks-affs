@@ -19,6 +19,15 @@
     "suggestions": {
     },
     "dependencies": {
+      "ohai": [
+
+      ],
+      "apache2": [
+
+      ],
+      "sshroot2rootssh": [
+
+      ]
     },
     "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
     "name": "yumrepo",

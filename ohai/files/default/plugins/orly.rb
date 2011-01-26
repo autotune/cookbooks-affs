@@ -1,8 +1,7 @@
 #
-# Cookbook Name:: kerberos
-# Recipe:: client
-#
-# Copyright 2010, afistfulofclients
+# Author:: Sean OMeara (<someara@afistfulofsevers.net>)
+# Copyright:: 2011, afistfulofservers
+# License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +16,9 @@
 # limitations under the License.
 #
 
-# only support single master kerberos for now. 
-# high availability will rely on N-way openldap
+provides "keys/orly"
 
-include_recipe "freeipa::client"
+require_plugin "keys"
 
-
+keys[:orly] = Mash.new
+keys[:orly][:rly] = "ya really"

@@ -7,7 +7,7 @@
     },
     "version": "0.0.2",
     "maintainer_email": "someara@afistfulofservers.com",
-    "description": "Installs/Configures ldap",
+    "description": "Installs/Configures pki",
     "groupings": {
     },
     "recommendations": {
@@ -24,7 +24,7 @@
       ]
     },
     "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
-    "name": "ldap",
+    "name": "pki",
     "platforms": {
     },
     "conflicting": {

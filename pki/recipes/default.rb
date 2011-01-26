@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: kerberos
-# Recipe:: client
+# Cookbook Name:: pki
+# Recipe:: default
 #
-# Copyright 2010, afistfulofclients
+# Copyright 2011, afistfulofservers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,10 +16,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-# only support single master kerberos for now. 
-# high availability will rely on N-way openldap
-
-include_recipe "freeipa::client"
-
-

@@ -1,0 +1,19 @@
+<VirtualHost *:80>
+  ServerAdmin     ops@<%= node[:domain] %>
+  ServerName      <%= node[:fqdn] %>
+	ServerAlias     yumrepo yumrepo.<%= node[:domain] %>
+  DocumentRoot    <%= node[:yumrepo][:docroot] %>
+  CustomLog       <%= node[:apache][:log_dir] %>/yumrepo_access.log combined
+  ErrorLog        <%= node[:apache][:log_dir] %>/yumrepo_error.log
+
+  Alias /yumrepo <%= node[:yumrepo][:docroot] %>
+
+  <Location />
+    AuthName "yum repository" 
+  </Location>
+
+
+  RewriteEngine On
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/
+  RewriteRule ^(.*)index\.html$ $1 [R=301,L]
+</VirtualHost>

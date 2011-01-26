@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: kerberos
+# Cookbook Name:: ntp
 # Recipe:: client
 #
-# Copyright 2010, afistfulofclients
+# Copyright 2011, afistfulofservers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-# only support single master kerberos for now. 
-# high availability will rely on N-way openldap
+package "ntp"
 
-include_recipe "freeipa::client"
-
+service "ntpd" do
+  action [:enable,:start]
+end
 

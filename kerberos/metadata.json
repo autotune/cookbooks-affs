@@ -19,6 +19,9 @@
     "suggestions": {
     },
     "dependencies": {
+      "freeipa": [
+
+      ]
     },
     "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
     "name": "kerberos",

@@ -1,0 +1,4 @@
+# maintained by chef
+<% @freeipa_servers.each do |freeipa_server| -%>
+<%= freeipa_server['fqdn'] %>,<%= freeipa_server['ipaddress'] %> ssh-rsa <%= freeipa_server[:keys][:ssh][:host_rsa_public] %>
+<% end -%>
