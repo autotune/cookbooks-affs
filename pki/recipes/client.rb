@@ -17,4 +17,5 @@
 # limitations under the License.
 #
 
+include_recipe "certmaster::client"
 include_recipe "freeipa::client"

@@ -18,3 +18,4 @@
 #
 
 include_recipe "freeipa::server"
+include_recipe "certmaster::server"

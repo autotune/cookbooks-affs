@@ -31,7 +31,7 @@ end
 if node[:yumrepo][:master] then
   execute "syncing yum repo from internet" do
     cmd =  "rsync -az"
-    cmd += " --exclude-from /root/cento5mirror-exclude.txt"
+    cmd += " --exclude-from /root/centos5mirror-exclude.txt"
     #    cmd += " rsync://mirror.cogentco.com/CentOS/5.5"
     cmd += " rsync://mirror.cogentco.com/CentOS/5.5/centosplus/x86_64"
     cmd += " /srv/yum/CentOS/5"
