@@ -80,6 +80,7 @@ if node[:freeipa][:master] then
     cmd += " -a " + ipa_user_pwd
     cmd += " -N "
     cmd += " -U "
+    cmd += " --no-host-dns "
     command "#{cmd}"
     notifies :start, "service[dirsrv]"
   end
@@ -169,6 +170,16 @@ end
 #  action [:enable,:start]
 #end
 
+template "/etc/httpd/conf.d/ipa.conf" do
+  source "ipa.conf.erb"
+  mode 0644
+  notifies :restart, "service[httpd]"
+end
+
+service "httpd" do
+  action [:enable,:start]
+end
+
 service "ipa_kpasswd" do
   action [:enable,:start]
 end
@@ -176,4 +187,13 @@ end
 service "ipa_webgui" do
   action [:enable,:start]
 end
+
+service "messagebus" do
+  action [:enable,:start]
+end
+
+service "oddjob" do
+  action [:enable,:start]
+end
+
 

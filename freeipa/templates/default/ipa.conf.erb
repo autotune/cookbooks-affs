@@ -1,0 +1,60 @@
+ProxyRequests Off
+AddType application/java-archive        jar
+<ProxyMatch ^.*/ipa/ui.*$>
+  AuthType Kerberos
+  AuthName "Kerberos Login"
+  KrbMethodNegotiate off
+  KrbMethodK5Passwd on
+  KrbServiceName HTTP
+  KrbAuthRealms DEV.US-EAST-1.AWS.AFISTFULOFSERVERS.NET
+  Krb5KeyTab /etc/httpd/conf/ipa.keytab
+  KrbSaveCredentials on
+  Require valid-user
+  ErrorDocument 401 /ipa/errors/unauthorized.html
+  RewriteEngine on
+  Order deny,allow
+  Allow from all
+  RequestHeader set X-Forwarded-Keytab %{KRB5CCNAME}e
+  # RequestHeader unset Authorization
+</ProxyMatch>
+ProxyPass /ipa/ui http://localhost:8080/ipa/ui
+ProxyPassReverse /ipa/ui http://localhost:8080/ipa/ui
+Alias /ipa/xml "/usr/share/ipa/ipaserver/XMLRPC"
+Alias /ipa/errors "/usr/share/ipa/html"
+Alias /ipa/config "/usr/share/ipa/html"
+<Directory "/usr/share/ipa/ipaserver">
+  AuthType Kerberos
+  AuthName "Kerberos Login"
+  KrbMethodNegotiate on
+  KrbMethodK5Passwd off
+  KrbServiceName HTTP
+  KrbAuthRealms DEV.US-EAST-1.AWS.AFISTFULOFSERVERS.NET
+  Krb5KeyTab /etc/httpd/conf/ipa.keytab
+  KrbSaveCredentials on
+  Require valid-user
+  ErrorDocument 401 /ipa/errors/unauthorized.html
+  SetHandler mod_python
+  PythonHandler ipaxmlrpc
+  
+  PythonDebug Off
+  PythonOption IPADebug Off
+  # this is pointless to use since it would just reload ipaxmlrpc.py
+  PythonAutoReload Off
+</Directory>
+<Directory "/usr/share/ipa/html">
+  AllowOverride None
+  Satisfy Any
+  Allow from all
+</Directory>
+<Directory /var/www/cgi-bin>
+  AuthType Kerberos
+  AuthName "Kerberos Login"
+  KrbMethodNegotiate on
+  KrbMethodK5Passwd off
+  KrbServiceName HTTP
+  KrbAuthRealms DEV.US-EAST-1.AWS.AFISTFULOFSERVERS.NET
+  Krb5KeyTab /etc/httpd/conf/ipa.keytab
+  KrbSaveCredentials on
+  Require valid-user
+  ErrorDocument 401 /ipa/errors/unauthorized.html
+</Directory>
