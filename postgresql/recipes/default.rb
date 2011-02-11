@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: munin
+# Cookbook Name:: postgresql
 # Recipe:: default
 #
-# Copyright 2010-2011, afistfulofservers
+# Copyright 2011, afistfulofservers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,22 +15,4 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-include_recipe "munin::client"
-munin_servers = search(:node, "munin_server:true")
-
-unless munin_servers.empty?
-
-  gem_package "redis"
-
-  # resque memory
-  cookbook_file "/usr/share/munin/plugins/resque_queue_" do
-    source "plugins/resque_queue.rb"
-    mode 0755
-  end
-
-  link "/etc/munin/plugins/resque_queue_" do
-    to "/usr/share/munin/plugins/resque_queue_"
-    #notifies :restart, "service[munin-node]"
-  end
-end
+#

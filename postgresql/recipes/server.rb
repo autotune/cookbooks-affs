@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: postgresql90
-# Recipe:: client
+# Cookbook Name:: postgresql
+# Recipe:: server
 #
-# Copyright 2010, afistfulofservers
+# Copyright 2011, afistfulofservers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,3 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+package "postgresql-server"
+
+service "postgresql" do
+  action[:enable,:start]
+end

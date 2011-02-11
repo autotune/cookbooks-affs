@@ -6,8 +6,8 @@
     "replacing": {
     },
     "version": "0.0.1",
-    "maintainer_email": "sean@afistfulofservers.com",
-    "description": "Installs/Configures postgresql90",
+    "maintainer_email": "someara@afistfulofservers.com",
+    "description": "Installs/Configures postgresql",
     "groupings": {
     },
     "recommendations": {
@@ -21,7 +21,7 @@
     "dependencies": {
     },
     "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
-    "name": "postgresql90",
+    "name": "postgresql",
     "platforms": {
     },
     "conflicting": {
