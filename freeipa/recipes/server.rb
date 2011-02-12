@@ -32,8 +32,10 @@ kdc_database_master_key = data_bag_item('secrets','kdc_database_master_key')['va
 ipa_user_pwd = data_bag_item('secrets','ipa_user_pwd')['value']
 
 # packages
-package "ipa-server"
+package "dbus"
+package "oddjob"
 package "rsync"
+package "ipa-server"
 
 ##### Security considerations
 # All FreeIPA server hosts need to be able to ssh to each other as root to copy replication configs
@@ -170,11 +172,11 @@ end
 #  action [:enable,:start]
 #end
 
-template "/etc/httpd/conf.d/ipa.conf" do
-  source "ipa.conf.erb"
-  mode 0644
-  notifies :restart, "service[httpd]"
-end
+#template "/etc/httpd/conf.d/ipa.conf" do
+#  source "ipa.conf.erb"
+#  mode 0644
+#  notifies :restart, "service[httpd]"
+#end
 
 service "httpd" do
   action [:enable,:start]
@@ -192,8 +194,7 @@ service "messagebus" do
   action [:enable,:start]
 end
 
-service "oddjob" do
+service "oddjobd" do
   action [:enable,:start]
 end
-
 
