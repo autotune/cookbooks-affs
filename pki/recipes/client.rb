@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pki
-# Recipe:: default
+# Recipe:: client
 #
 # Copyright 2011, afistfulofservers
 #
@@ -17,5 +17,30 @@
 # limitations under the License.
 #
 
-include_recipe "certmaster::client"
-include_recipe "freeipa::client"
+node.set[:pki][:client] = true
+pki_servers = search(:node, "pki_server:true")
+pki_clients = search(:node, "pki_client:true")
+
+unless pki_servers.empty? then
+  package "openssl"
+
+  # write ca cert to disk
+  file "/etc/pki/tls/certs/ca.crt" do
+    content pki_servers[0][:pki][:cacert]
+  end
+
+  # put cacert into ca bundle
+  cacert=`cat /etc/pki/tls/certs/ca.crt | openssl x509 -text`
+  template "/etc/pki/tls/certs/ca-bundle.crt" do
+    source "ca-bundle.crt.erb"
+    variables(
+      :cacert => cacert
+    )
+  end
+
+  # request a server certificate for the node
+  pki_servercert "#{node[:fqdn]}" do
+    action [:create]
+    pkiserver pki_servers[0][:fqdn]
+  end
+end

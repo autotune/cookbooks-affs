@@ -16,3 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+# slightly modified openssl.cnf - replace .pems with crt/key 
+#template "/etc/pki/tls/openssl.cnf" do
+#  source "openssl.cnf.erb"
+#  mode 0600
+#  cookbook "pki"
+#end

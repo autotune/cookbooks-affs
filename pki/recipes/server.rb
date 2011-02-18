@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pki
-# Recipe:: default
+# Recipe:: server
 #
 # Copyright 2011, afistfulofservers
 #
@@ -17,5 +17,132 @@
 # limitations under the License.
 #
 
-include_recipe "freeipa::server"
-include_recipe "certmaster::server"
+######
+# Two things get accomplished with inter-node convergence:
+# 1) Redundancy of pki::server data 
+# 2) Communication and service to pki_clients
+#
+#
+# Strategy for redundancy of pki::server data -
+#
+# Nodes "negotiate" for master. This is accomplished by searching, then setting
+# a node :master if no others are found. When the node with the master attribute 
+# asplodes (which it will eventually), it's node record needs  to be removed from 
+# chef-server by an external actor. This can be manual intervention, as a response 
+# to a nagios trigger, or by breakdancing space robots. It cannot, however be a 
+# node running this server.rb file. 
+# 
+# This could be a use case for letting a node manipulate another's object, perhaps 
+# as a response to a ping provider or something. 
+# 
+# Nodes then "do master stuff", or they "do non-master stuff". In the case of this
+# cookbook, masters handle servicing the clients, while the non-masters 
+# periodically copy the master's data directory then sit around eating electricity.
+#
+#
+#
+# Strategy for communication and service to pki_clients data -
+# 
+# Clients check to see if they have a certificate for their FQDN.
+# If not, a resource provider is called that generates a private key and a CSR.
+# The node then sets a node attribute with the CSR as its value
+#
+# When the server side runs, it searches for a list of clients with the attribute
+# set. When it finds a certificate request, it will automatically sign it and place
+# the resulting certificate in a directory that is exposed via rsync. Since these
+# are public keys, there are no security concerns here.
+#
+# When a client is satisfied about its certificate, it will remove the attribute.
+# 
+# When the ca certificate has been deleted, the clients will re-key
+#
+# -s
+
+# ohhalp
+# canplzhas-cacert
+# canplznas-servercert
+# canplznas-clientcer
+
+node.set[:pki][:server] = true
+pki_servers = search(:node, "pki_server:true")
+pki_clients = search(:node, "pki_client:true")
+
+################################################################################
+
+# Nodes come up and "negotiate" for master.
+pki_masters = search(:node, "pki_master:true")
+if pki_masters.empty? then
+  node.set[:pki][:master] = true
+end
+
+
+# Common packages
+package "openssl"
+package "rsync"
+package "xinetd"
+
+### Do master stuff
+if node[:pki][:master] then
+
+  # create CA if one does not exist
+  pki_selfsignedca "ca" do
+    action [:create]
+  end
+
+  # make a directory to place requests in
+  directory "/etc/pki/CA/requests" do
+    action [:create]
+    mode 0700
+  end
+
+  # process requests
+  needy_nodes = search(:node, "pki_csr:[* TO *]" )
+  unless needy_nodes.empty? then
+    needy_nodes.each do |needy_node|
+      needy_node[:pki][:csr].keys.each do |key| 
+
+        # write the CSR to disk
+        file "/etc/pki/CA/requests/#{key}.csr" do
+          content needy_node[:pki][:csr][:"#{key}"]
+        end
+        
+        # sign the request and place it into data dir
+        cmd = "openssl x509"
+        cmd += " -req"
+        cmd += " -CA /etc/pki/CA/certs/ca.crt"
+        cmd += " -CAkey /etc/pki/CA/private/ca.key"
+        cmd += " -in /etc/pki/CA/requests/#{key}.csr"
+        cmd += " -out /etc/pki/CA/certs/#{key}.crt"
+        puts "DEBUGWOOT: #{cmd}"
+        system(cmd) 
+      end
+    end
+  end
+
+  # rsync xinetd configuration
+  template "/etc/xinetd.d/rsync" do
+    source "rsync.xinetd.erb"
+    notifies :restart, "service[xinetd]"
+  end
+
+  # rsyncd config
+  template "/etc/rsyncd.conf" do
+    source "rsyncd.conf.erb"
+  end
+
+  # ensure xinetd is running
+  service "xinetd" do
+    action[:enable,:start]
+  end
+
+end
+
+### Do non-master stuff
+unless node[:pki][:master] then
+  puts "ohai I'm not master!"
+
+  service "xinetd" do
+    action[:disable,:stop]
+  end
+end
+
