@@ -113,7 +113,6 @@ if node[:pki][:master] then
         cmd += " -CAkey /etc/pki/CA/private/ca.key"
         cmd += " -in /etc/pki/CA/requests/#{key}.csr"
         cmd += " -out /etc/pki/CA/certs/#{key}.crt"
-        puts "DEBUGWOOT: #{cmd}"
         system(cmd) 
       end
     end
@@ -139,7 +138,7 @@ end
 
 ### Do non-master stuff
 unless node[:pki][:master] then
-  puts "ohai I'm not master!"
+  # implement copy from master logic here
 
   service "xinetd" do
     action[:disable,:stop]
