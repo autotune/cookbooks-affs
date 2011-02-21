@@ -30,12 +30,14 @@ unless pki_servers.empty? then
   end
 
   # put cacert into ca bundle
-  cacert=`cat /etc/pki/tls/certs/ca.crt | openssl x509 -text`
-  template "/etc/pki/tls/certs/ca-bundle.crt" do
-    source "ca-bundle.crt.erb"
-    variables(
-      :cacert => cacert
-    )
+  if ::File.exists?("/etc/pki/tls/certs/ca.crt") then
+    cacert=`cat /etc/pki/tls/certs/ca.crt | openssl x509 -text`
+    template "/etc/pki/tls/certs/ca-bundle.crt" do
+      source "ca-bundle.crt.erb"
+      variables(
+        :cacert => cacert
+      )
+    end
   end
 
   # request a server certificate for the node

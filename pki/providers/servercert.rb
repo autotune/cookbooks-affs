@@ -30,4 +30,11 @@ action :create do
       end
     end
   end 
+
+  # retract CSR node attribute to prevent server from acting on it
+  if ::File.exists?("/etc/pki/tls/certs/#{new_resource.name}.crt") then
+    #node[:pki][:csr][:"#{new_resource.name}"]
+    puts "puts I wish I could delete this node attribute"
+  end
+
 end
