@@ -23,6 +23,7 @@ pki_clients = search(:node, "pki_client:true")
 
 unless pki_servers.empty? then
   package "openssl"
+  package "rsync"
 
   # write ca cert to disk
   file "/etc/pki/tls/certs/ca.crt" do

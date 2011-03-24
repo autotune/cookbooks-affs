@@ -1,4 +1,9 @@
 {
+    "recipes": {
+      "rsyslog": "Installs rsyslog",
+      "rsyslog::server": "Sets up an rsyslog server",
+      "rsyslog::client": "Sets up a client to log to a remote rsyslog server"
+    },
     "license": "Apache 2.0",
     "providing": {
     },
@@ -11,11 +16,6 @@
     "groupings": {
     },
     "recommendations": {
-    },
-    "recipes": {
-      "rsyslog": "Installs rsyslog",
-      "rsyslog::server": "Sets up an rsyslog server",
-      "rsyslog::client": "Sets up a client to log to a remote rsyslog server"
     },
     "attributes": {
       "rsyslog": {

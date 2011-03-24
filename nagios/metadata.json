@@ -1,4 +1,9 @@
 {
+    "recipes": {
+      "nagios": "Empty, use one of the other recipes",
+      "nagios::client": "Installs and configures a nagios client with nrpe",
+      "nagios::server": "Installs and configures a nagios server"
+    },
     "license": "Apache 2.0",
     "providing": {
     },
@@ -11,11 +16,6 @@
     "groupings": {
     },
     "recommendations": {
-    },
-    "recipes": {
-      "nagios": "Empty, use one of the other recipes",
-      "nagios::client": "Installs and configures a nagios client with nrpe",
-      "nagios::server": "Installs and configures a nagios server"
     },
     "attributes": {
     },

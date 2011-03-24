@@ -9,7 +9,7 @@
     },
     "version": "0.0.1",
     "maintainer_email": "someara@afistfulofservers.com",
-    "description": "Installs/Configures appserver-config-a",
+    "description": "Installs/Configures koji",
     "groupings": {
     },
     "recommendations": {
@@ -19,9 +19,15 @@
     "suggestions": {
     },
     "dependencies": {
+      "pki": [
+
+      ],
+      "postgresql": [
+
+      ]
     },
     "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
-    "name": "appserver-config-a",
+    "name": "koji",
     "platforms": {
     },
     "conflicting": {

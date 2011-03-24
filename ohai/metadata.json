@@ -1,4 +1,7 @@
 {
+    "recipes": {
+      "ohai::default": "Distributes a directory of custom ohai plugins"
+    },
     "license": "Apache 2.0",
     "providing": {
     },
@@ -11,9 +14,6 @@
     "groupings": {
     },
     "recommendations": {
-    },
-    "recipes": {
-      "ohai::default": "Distributes a directory of custom ohai plugins"
     },
     "attributes": {
     },

@@ -1,4 +1,7 @@
 {
+    "recipes": {
+      "openssh": "Installs openssh"
+    },
     "license": "Apache 2.0",
     "providing": {
     },
@@ -11,9 +14,6 @@
     "groupings": {
     },
     "recommendations": {
-    },
-    "recipes": {
-      "openssh": "Installs openssh"
     },
     "attributes": {
     },

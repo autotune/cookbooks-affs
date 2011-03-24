@@ -17,9 +17,6 @@
 # limitations under the License.
 #
 
-node.set[:pki][:client] = true
-node.set[:ldap][:client] = true
-node.set[:kerberos][:client] = true
 node.set[:freeipa][:client] = true
 
 # become aware servers

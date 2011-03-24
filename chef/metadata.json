@@ -1,4 +1,8 @@
 {
+    "recipes": {
+      "chef::delete_validation": "Deletes validation.pem after client registers",
+      "chef::client": "Sets up a client to talk to a chef-server"
+    },
     "license": "Apache 2.0",
     "providing": {
     },
@@ -11,10 +15,6 @@
     "groupings": {
     },
     "recommendations": {
-    },
-    "recipes": {
-      "chef::delete_validation": "Deletes validation.pem after client registers",
-      "chef::client": "Sets up a client to talk to a chef-server"
     },
     "attributes": {
     },

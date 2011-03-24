@@ -1,17 +1,4 @@
 {
-    "license": "Apache 2.0",
-    "providing": {
-    },
-    "maintainer": "Opscode, Inc.",
-    "replacing": {
-    },
-    "version": "0.12.3",
-    "maintainer_email": "cookbooks@opscode.com",
-    "description": "Installs and configures all aspects of apache2 using Debian style symlinks with helper definitions",
-    "groupings": {
-    },
-    "recommendations": {
-    },
     "recipes": {
       "apache2::mod_dav": "Apache module 'dav'",
       "apache2::mod_proxy_ajp": "Apache module 'proxy_ajp'",
@@ -49,6 +36,19 @@
       "apache2::mod_proxy_balancer": "Apache module 'proxy_balancer'",
       "apache2::mod_dir": "Apache module 'dir' with config file",
       "apache2::mod_authz_default": "Apache module 'authz_default'"
+    },
+    "license": "Apache 2.0",
+    "providing": {
+    },
+    "maintainer": "Opscode, Inc.",
+    "replacing": {
+    },
+    "version": "0.12.3",
+    "maintainer_email": "cookbooks@opscode.com",
+    "description": "Installs and configures all aspects of apache2 using Debian style symlinks with helper definitions",
+    "groupings": {
+    },
+    "recommendations": {
     },
     "attributes": {
       "apache/traceenable": {

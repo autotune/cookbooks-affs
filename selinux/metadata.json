@@ -1,4 +1,6 @@
 {
+    "recipes": {
+    },
     "license": "Apache",
     "providing": {
     },
@@ -11,8 +13,6 @@
     "groupings": {
     },
     "recommendations": {
-    },
-    "recipes": {
     },
     "attributes": {
     },

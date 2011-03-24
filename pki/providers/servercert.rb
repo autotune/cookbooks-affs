@@ -25,7 +25,7 @@ action :create do
     if ::File.exists?("/etc/pki/tls/private/#{new_resource.name}.key") then
       if ::File.exists?("/etc/pki/tls/private/#{new_resource.name}.csr") then
         node.set[:pki][:csr][:"#{new_resource.name}"] = IO.read("/etc/pki/tls/private/#{new_resource.name}.csr")
-        log "rsyncing certificate from pki"
+        log "rsyncing certificate #{new_resource.name}.crt from pki"
         system("rsync #{new_resource.pkiserver}::pki/#{new_resource.name}.crt /etc/pki/tls/certs/")
       end
     end
@@ -34,7 +34,7 @@ action :create do
   # retract CSR node attribute to prevent server from acting on it
   if ::File.exists?("/etc/pki/tls/certs/#{new_resource.name}.crt") then
     #node[:pki][:csr][:"#{new_resource.name}"]
-    puts "puts I wish I could delete this node attribute"
+    puts "I wish I could delete this node attribute"
+    new_resource.updated_by_last_action(true)
   end
-
 end

@@ -17,9 +17,6 @@
 # limitations under the License.
 #
 
-node.set[:pki][:server] = true
-node.set[:ldap][:server] = true
-node.set[:kerberos][:server] = true
 node.set[:freeipa][:server] = true
 
 # become aware of clients and servers
@@ -35,6 +32,7 @@ ipa_user_pwd = data_bag_item('secrets','ipa_user_pwd')['value']
 package "dbus"
 package "oddjob"
 package "rsync"
+package "ipa-client"
 package "ipa-server"
 
 ##### Security considerations
