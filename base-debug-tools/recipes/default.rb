@@ -31,6 +31,7 @@ when "centos","redhat","fedora","suse"
   package "wget"
   package "lynx"
   package "dsniff"
+  package "screen"
 when "debian","ubuntu"
 end
 

@@ -20,10 +20,10 @@
 
 node.set[:munin][:server] = true
 munin_clients = search(:node, "munin_client:true")
+node.save
 
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
-include_recipe "apache2::mod_auth_pam"
 include_recipe "munin::client"
 
 package "munin"
@@ -58,9 +58,11 @@ template "#{node[:apache][:dir]}/sites-available/munin.conf" do
   source "localsystem.apache2.conf.erb"
   mode 0644
   backup false
-  if File.symlink?("#{node[:apache][:dir]}/sites-enabled/munin.conf")
+  if ::File.symlink?("#{node[:apache][:dir]}/sites-enabled/munin.conf")
     notifies :reload, resources(:service => "apache2")
   end
 end
 
 apache_site "munin.conf"
+
+

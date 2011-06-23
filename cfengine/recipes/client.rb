@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: postgresql
-# Recipe:: server
+# Cookbook Name:: cfengine
+# Recipe:: client
 #
 # Copyright 2011, afistfulofservers
 #
@@ -17,13 +17,4 @@
 # limitations under the License.
 #
 
-package "postgresql-server"
-
-execute "initializing postgres" do
-  not_if "ls /var/lib/pgsql/data/*"
-  command "service postgresql initdb"
-end
-
-service "postgresql" do
-  action[:enable,:start]
-end
+package "cfengine-community"

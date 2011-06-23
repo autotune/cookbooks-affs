@@ -47,3 +47,5 @@ unless pki_servers.empty? then
     pkiserver pki_servers[0][:fqdn]
   end
 end
+
+

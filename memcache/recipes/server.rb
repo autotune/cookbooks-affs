@@ -22,3 +22,4 @@ package "memcached"
 service "memcached" do
   action [:start, :enable]
 end
+

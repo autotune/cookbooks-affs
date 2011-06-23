@@ -18,31 +18,6 @@
 #
 
 ######
-# Two things get accomplished with inter-node convergence:
-# 1) Redundancy of pki::server data 
-# 2) Communication and service to pki_clients
-#
-#
-# Strategy for redundancy of pki::server data -
-#
-# Nodes "negotiate" for master. This is accomplished by searching, then setting
-# a node :master if no others are found. When the node with the master attribute 
-# asplodes (which it will eventually), it's node record needs  to be removed from 
-# chef-server by an external actor. This can be manual intervention, as a response 
-# to a nagios trigger, or by breakdancing space robots. It cannot, however be a 
-# node running this server.rb file. 
-# 
-# This could be a use case for letting a node manipulate another's object, perhaps 
-# as a response to a ping provider or something. 
-# 
-# Nodes then "do master stuff", or they "do non-master stuff". In the case of this
-# cookbook, masters handle servicing the clients, while the non-masters 
-# periodically copy the master's data directory then sit around eating electricity.
-#
-#
-#
-# Strategy for communication and service to pki_clients data -
-# 
 # Clients check to see if they have a certificate for their FQDN.
 # If not, a resource provider is called that generates a private key and a CSR.
 # The node then sets a node attribute with the CSR as its value
@@ -57,11 +32,6 @@
 # When the ca certificate has been deleted, the clients will re-key
 #
 # -s
-
-# ohhalp
-# canplzhas-cacert
-# canplznas-servercert
-# canplznas-clientcer
 
 node.set[:pki][:server] = true
 pki_servers = search(:node, "pki_server:true")

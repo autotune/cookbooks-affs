@@ -21,12 +21,12 @@ daemonize yes
 pidfile /var/run/redis/redis.pid
 
 # Accept connections on the specified port, default is 6379
-port 6379
+port <%= @port %>
 
 # If you want you can bind a single interface, if the bind option is not
 # specified all the interfaces will listen for incoming connections.
 #
-bind 127.0.0.1
+#bind 127.0.0.1
 
 # Close the connection after a client is idle for N seconds (0 to disable)
 timeout 300

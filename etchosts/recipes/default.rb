@@ -17,15 +17,19 @@
 # limitations under the License.
 #
 
-nodes = search(:node, "hostname:[* TO *]")
+nodes = search(:node, "chef_environment:#{node.chef_environment} AND hostname:[* TO *]")
 
 # self
-localhostentry = [ { "ipv4addr", node[:ipaddress], "fqdn", node[:fqdn] } ]
+localhostentry = [ { "ipv4addr" => node[:ipaddress], "fqdn" => node[:fqdn] } ]
 
 nodeentries = Array.new
 
 nodes.each do |node|
-  nodeentries << { "ipv4addr", node[:cloud][:public_ips][0], "fqdn", node[:fqdn] }
+  unless node[:cloud].nil? || node[:cloud][:public_ipv4].nil? then
+    nodeentries << { "ipv4addr" => node[:cloud][:public_ipv4], "fqdn" => node[:fqdn] }
+  else
+    nodeentries << { "ipv4addr" => node[:ipaddress], "fqdn" => node[:fqdn] }
+  end
 end
 
 ## ye ole file
@@ -37,4 +41,5 @@ template "/etc/hosts" do
   )
   mode 0644
 end
+
 

@@ -17,11 +17,14 @@
 # limitations under the License.
 #
 
+node.set[:redis][:server] = true
+
 package "redis"
 
 template "/etc/redis.conf" do
   source "redis.conf.erb"
   mode 0644
+  variables(:port => node[:redis][:port] )
   notifies :restart, "service[redis]"
 end
 

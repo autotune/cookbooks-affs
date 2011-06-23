@@ -29,7 +29,6 @@ unless munin_servers.empty?
   template "/etc/munin/munin-node.conf" do
     source "munin-node.conf.erb"
     mode 0644
-    backup false
     variables :munin_servers => munin_servers
     notifies :restart, "service[munin-node]"
   end
@@ -39,3 +38,4 @@ unless munin_servers.empty?
     action [ :enable, :start ]
   end
 end
+

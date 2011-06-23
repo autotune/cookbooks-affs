@@ -35,6 +35,7 @@ search(:users, '*:*') do |u|
     supports :manage_home => true
     action [:create, :manage]
   end
+  
 end
 
 data_bag('groups').each do |g|
