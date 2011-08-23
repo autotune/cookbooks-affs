@@ -19,7 +19,7 @@
 
 if platform?("debian", "ubuntu")
   package "libapache2-mod-fcgid"
-elsif platform?("centos", "redhat", "fedora", "arch")
+elsif platform?("redhat", "centos", "scientific", "fedora", "arch")
   package "mod_fcgid" do
     notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
@@ -29,7 +29,7 @@ elsif platform?("centos", "redhat", "fedora", "arch")
     backup false 
   end
 elsif platform?("suse")
-  apache_lib_path = node[:architecture] == "i386" ? "/usr/lib/httpd" : "/usr/lib64/httpd"
+  apache_lib_path = node[:apache][:lib_dir]
   package "httpd-devel"
   bash "install-fcgid" do
     code <<-EOH
