@@ -29,11 +29,11 @@ kdc_database_master_key = data_bag_item('secrets','kdc_database_master_key')['va
 ipa_user_pwd = data_bag_item('secrets','ipa_user_pwd')['value']
 
 # packages
-package "dbus"
-package "oddjob"
-package "rsync"
-package "ipa-client"
+#package "dbus"
+#package "oddjob"
+#package "ipa-client"
 package "ipa-server"
+package "rsync"
 
 ##### Security considerations
 # All FreeIPA server hosts need to be able to ssh to each other as root to copy replication configs
@@ -72,7 +72,7 @@ if node[:freeipa][:master] then
     not_if "ls /var/lib/ipa/sysrestore/sysrestore.state"
     cmd = "ipa-server-install"
     cmd += " --hostname " + node[:fqdn]
-    cmd += " -u " + "ipaadmin"
+    #cmd += " -u " + "ipaadmin"
     cmd += " -r " + node[:domain].upcase
     cmd += " -n " + node[:domain]
     cmd += " -p " + ldap_server_admin_pwd
@@ -105,7 +105,6 @@ if node[:freeipa][:master] then
   end
 
 end
-
 
 ### Subsequent nodes 
 unless node[:freeipa][:master] then
@@ -161,9 +160,9 @@ end
 ##### services
 # enable all the default services recommended by the freeipa docs
 
-service "dirsrv" do
-  action [:enable,:start]
-end
+#service "dirsrv" do
+#  action [:enable,:start]
+#end
 
 #service "krb5kdc" do
 #  only_if service[:dirsrv] => running
@@ -176,23 +175,22 @@ end
 #  notifies :restart, "service[httpd]"
 #end
 
-service "httpd" do
-  action [:enable,:start]
-end
+#service "httpd" do
+#  action [:enable,:start]
+#end
 
-service "ipa_kpasswd" do
-  action [:enable,:start]
-end
+#service "ipa_kpasswd" do
+#  action [:enable,:start]
+#end
 
-service "ipa_webgui" do
-  action [:enable,:start]
-end
-
-service "messagebus" do
-  action [:enable,:start]
-end
-
-service "oddjobd" do
-  action [:enable,:start]
-end
-
+#service "ipa" do
+#  action [:enable,:start]
+#end
+#
+#service "messagebus" do
+#  action [:enable,:start]
+#end
+#
+#service "oddjobd" do
+#  action [:enable,:start]
+#end

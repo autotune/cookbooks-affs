@@ -30,7 +30,6 @@ when "centos","redhat","fedora","suse"
   package "yum-utils"
   package "wget"
   package "lynx"
-  package "dsniff"
   package "screen"
 when "debian","ubuntu"
 end
