@@ -19,17 +19,19 @@
 
 package "apache2" do
   case node[:platform]
-  when "centos","redhat","fedora","suse","scientific"
+  when "centos","redhat","fedora","suse"
     package_name "httpd"
   when "debian","ubuntu"
     package_name "apache2"
+  when "arch"
+    package_name "apache"
   end
   action :install
 end
 
 service "apache2" do
   case node[:platform]
-  when "centos","redhat","fedora","suse","scientific"
+  when "centos","redhat","fedora","suse"
     service_name "httpd"
     # If restarted/reloaded too quickly httpd has a habit of failing.
     # This may happen with multiple recipes notifying apache to restart - like
@@ -40,25 +42,27 @@ service "apache2" do
     service_name "apache2"
     restart_command "/usr/sbin/invoke-rc.d apache2 restart && sleep 1"
     reload_command "/usr/sbin/invoke-rc.d apache2 reload && sleep 1"
+  when "arch"
+    service_name "httpd"
   end
   supports value_for_platform(
     "debian" => { "4.0" => [ :restart, :reload ], "default" => [ :restart, :reload, :status ] },
     "ubuntu" => { "default" => [ :restart, :reload, :status ] },
-    "fedora" => { "default" => [ :restart, :reload, :status ] },
-    "redhat" => { "default" => [ :restart, :reload, :status ] },
     "centos" => { "default" => [ :restart, :reload, :status ] },
-    "scientific" => { "default" => [ :restart, :reload, :status ] },
+    "redhat" => { "default" => [ :restart, :reload, :status ] },
+    "fedora" => { "default" => [ :restart, :reload, :status ] },
+    "arch" => { "default" => [ :restart, :reload, :status ] },
     "default" => { "default" => [:restart, :reload ] }
   )
   action :enable
 end
 
-if platform?("centos", "redhat", "fedora", "suse")
+if platform?("centos", "redhat", "fedora", "suse", "arch")
   directory node[:apache][:log_dir] do
     mode 0755
     action :create
   end
-
+  
   cookbook_file "/usr/local/bin/apache2_module_conf_generate.pl" do
     source "apache2_module_conf_generate.pl"
     mode 0755
@@ -74,18 +78,17 @@ if platform?("centos", "redhat", "fedora", "suse")
       action :create
     end
   end
-
+    
   execute "generate-module-list" do
     if node[:kernel][:machine] == "x86_64" 
-      libdir = "lib64"
+      libdir = value_for_platform("arch" => { "default" => "lib" }, "default" => "lib64")
     else 
       libdir = "lib"
     end
     command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
-
     action :run
   end
-
+  
   %w{a2ensite a2dissite a2enmod a2dismod}.each do |modscript|
     template "/usr/sbin/#{modscript}" do
       source "#{modscript}.erb"
@@ -104,7 +107,7 @@ if platform?("centos", "redhat", "fedora", "suse")
     action :delete
     backup false
   end
-
+  
   # welcome page moved to the default-site.rb temlate
   file "#{node[:apache][:dir]}/conf.d/welcome.conf" do
     action :delete
@@ -112,23 +115,29 @@ if platform?("centos", "redhat", "fedora", "suse")
   end
 end
 
-directory "#{node[:apache][:cache_dir]}" do
-  action :create
-  mode 0755
-  owner "#{node[:apache][:user]}"
-  group "#{node[:apache][:group]}"
-end
-
 directory "#{node[:apache][:dir]}/ssl" do
   action :create
   mode 0755
-  owner "#{node[:apache][:user]}"
-  group "#{node[:apache][:group]}"
+  owner "root"
+  group "root"
+end
+
+directory "#{node[:apache][:dir]}/conf.d" do
+  action :create
+  mode 0755
+  owner "root"
+  group "root"
+end
+
+directory node[:apache][:cache_dir] do
+  action :create
+  mode 0755
+  owner node[:apache][:user]
 end
 
 template "apache2.conf" do
   case node[:platform]
-  when "centos","redhat","fedora"
+  when "centos","redhat","fedora","arch"
     path "#{node[:apache][:dir]}/conf/httpd.conf"
   when "debian","ubuntu"
     path "#{node[:apache][:dir]}/apache2.conf"
@@ -191,10 +200,9 @@ include_recipe "apache2::mod_env"
 include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
 include_recipe "apache2::mod_setenvif"
-include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "suse", "fedora", "scientific")
+include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "fedora", "suse", "arch")
 
-# uncomment to get working example site on centos/redhat/fedora
-#apache_site "default"
+apache_site "default" if platform?("centos", "redhat", "fedora")
 
 service "apache2" do
   action :start
